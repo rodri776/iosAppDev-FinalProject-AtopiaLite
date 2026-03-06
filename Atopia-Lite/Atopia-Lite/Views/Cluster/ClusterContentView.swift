@@ -1,0 +1,213 @@
+import SwiftUI
+
+struct ClusterContentView: View {
+    @StateObject private var viewModel: GraphViewModel
+    @State private var showOnboardingPopup = false
+    @State private var showProfileSheet = false
+    @State private var showRecommendationsPopup = false
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+    
+    let isOnboarding: Bool
+    var onOnboardingComplete: (() -> Void)?
+    
+    init(isOnboarding: Bool = false, profileManager: UserProfileManager? = nil, onOnboardingComplete: (() -> Void)? = nil) {
+        self.isOnboarding = isOnboarding
+        self.onOnboardingComplete = onOnboardingComplete
+        _viewModel = StateObject(wrappedValue: GraphViewModel(profileManager: profileManager))
+    }
+    
+    var body: some View {
+        ZStack {
+            ZStack {
+                Color("BackgroundColor").ignoresSafeArea()
+                VStack {
+                    HStack {
+                        Button("About The Cluster", systemImage: "info.circle") {
+                            showOnboardingPopup = true
+                        }
+                        .labelStyle(.iconOnly)
+                        .accessibilityHint("Shows app instructions")
+                        .padding()
+                        Spacer()
+                        Text("The Cluster").font(.largeTitle).opacity(0.5)
+                        Spacer()
+                        if !isOnboarding {
+                            Button("My Profile", systemImage: "person.circle.fill") {
+                                showProfileSheet = true
+                            }
+                            .labelStyle(.iconOnly)
+                            .buttonStyle(.bordered)
+                            .accessibilityHint("Shows your saved datapoints")
+                        }
+                    }
+                    .padding(.horizontal)
+                    if #available(iOS 26.0, *) {
+                        Text(viewModel.instructionText)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .glassEffect(in: .capsule)
+                            .padding(.horizontal)
+                    } else {
+                        Text(viewModel.instructionText)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                Capsule()
+                                    .fill(Color.gray.opacity(0.2))
+                            )
+                            .padding(.horizontal)
+                    }
+                    
+                    GraphView(viewModel: viewModel)
+                        .padding(.horizontal)
+                    
+                    if isOnboarding {
+                        VStack(spacing: 8) {
+                            Text("Save datapoints that describe you, then continue")
+                                .font(.system(size: 14, weight: .medium, design: .serif))
+                                .foregroundColor(.secondary)
+                            
+                            Button {
+                                onOnboardingComplete?()
+                            } label: {
+                                HStack(spacing: 8) {
+                                    Image(systemName: "checkmark.circle.fill")
+                                    Text("Continue")
+                                }
+                                .font(.system(size: 16, weight: .semibold, design: .serif))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 24)
+                                .padding(.vertical, 12)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 22)
+                                        .fill(Color.accentColor)
+                                )
+                            }
+                        }
+                        .padding()
+                    } else {
+                        HStack {
+                            Button("Recommendations Info", systemImage: "info.circle") {
+                                showRecommendationsPopup = true
+                            }
+                            .labelStyle(.iconOnly)
+                            .accessibilityHint("Shows how recommendations work")
+                            
+                            recommendButton
+                        }.padding()
+                    }
+                }
+                .preferredColorScheme(.dark)
+            }
+            
+            if showOnboardingPopup {
+                Color.black.opacity(0.5)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        showOnboardingPopup = false
+                    }
+                
+                OnboardingPopup(onDismiss: {
+                    showOnboardingPopup = false
+                })
+                .padding(.horizontal, 20)
+            }
+            
+            if showProfileSheet {
+                Color.black.opacity(0.5)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        showProfileSheet = false
+                    }
+                
+                ProfilePopup(onDismiss: {
+                    showProfileSheet = false
+                })
+                .padding(.horizontal, 20)
+            }
+            
+            if showRecommendationsPopup {
+                Color.black.opacity(0.5)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        showRecommendationsPopup = false
+                    }
+                
+                RecommendationsPopup(onDismiss: {
+                    showRecommendationsPopup = false
+                })
+                .padding(.horizontal, 20)
+            }
+        }
+        .onAppear {
+            if !hasSeenOnboarding {
+                showOnboardingPopup = true
+                hasSeenOnboarding = true
+            }
+        }
+    }
+    
+    private var recommendButton: some View {
+        let isActive = viewModel.hasActiveRecommendations
+        let isCalculating = viewModel.isCalculatingRecommendations
+        let canShow = viewModel.canShowRecommendations
+        let isEnabled = (isActive || canShow) && !isCalculating
+        
+        var statusText: String? = nil
+        if let errorText = viewModel.recommendationError {
+            statusText = errorText
+        } else if isCalculating {
+            statusText = "Calculating embeddings..."
+        } else if !canShow && !isActive {
+            statusText = "Save 4+ datapoints to unlock"
+        }
+        
+        return VStack(spacing: 4) {
+            Button {
+                if isActive {
+                    viewModel.dismissRecommendations()
+                } else {
+                    viewModel.generateRecommendations()
+                }
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: isActive ? "xmark.circle.fill" : "sparkles")
+                    Text(isActive ? "Dismiss" : "Recommend")
+                }
+                .font(.system(size: 16, weight: .semibold, design: .serif))
+                .foregroundColor(isEnabled ? .white : .gray)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 12)
+                .background(
+                    RoundedRectangle(cornerRadius: 22)
+                        .fill(
+                            isActive ? Color.red.opacity(0.8) :
+                            isEnabled ? Color("RecPurple1") :
+                            Color("BackgroundColor")
+                        )
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 22)
+                        .stroke(
+                            isActive ? Color.red.opacity(0.5) :
+                            isEnabled ? Color("RecPurple2").opacity(0.5) :
+                            Color.gray.opacity(0.3),
+                            lineWidth: 1.5
+                        )
+                )
+            }
+            .disabled(!isEnabled)
+            .accessibilityLabel(isActive ? "Dismiss recommendations" : "Generate recommendations")
+            .accessibilityHint(isEnabled ? (isActive ? "Removes recommended nodes from the graph" : "Finds new datapoints based on your interests") : (statusText ?? ""))
+            
+            if let statusText {
+                Text(statusText)
+                    .font(.system(size: 12, weight: .medium, design: .serif))
+                    .foregroundColor(.gray)
+            }
+        }
+        .animation(.easeInOut(duration: 0.25), value: isActive)
+        .animation(.easeInOut(duration: 0.25), value: isCalculating)
+        .animation(.easeInOut(duration: 0.25), value: canShow)
+    }
+}
