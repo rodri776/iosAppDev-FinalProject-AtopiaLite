@@ -9,19 +9,18 @@ import SwiftUI
 
 struct MainTabView: View {
     @EnvironmentObject var authManager: AuthManager
-    
+
     var body: some View {
         TabView {
             UsersTabView()
-                .tabItem {
-                    Label("Users", systemImage: "person.2.fill")
-                }
-            
+                .tabItem { Label("Contacts", systemImage: "person.3.fill") }
+
+            UsersMapView()
+                .tabItem { Label("Map", systemImage: "map.fill") }
+
             ProfileTabView()
-                .tabItem {
-                    Label("Profile", systemImage: "person.circle.fill")
-                }
+                .tabItem { Label("Profile", systemImage: "person.fill") }
         }
-        .preferredColorScheme(.dark)
+        .tint(.green)
     }
 }

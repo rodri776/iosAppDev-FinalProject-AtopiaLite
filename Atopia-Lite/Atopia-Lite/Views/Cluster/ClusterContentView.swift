@@ -61,12 +61,16 @@ struct ClusterContentView: View {
                     GraphView(viewModel: viewModel)
                         .padding(.horizontal)
                     
-                    if isOnboarding {
-                        VStack(spacing: 8) {
-                            Text("Save datapoints that describe you, then continue")
-                                .font(.system(size: 14, weight: .medium, design: .serif))
-                                .foregroundColor(.secondary)
-                            
+                    HStack {
+                        Button("Recommendations Info", systemImage: "info.circle") {
+                            showRecommendationsPopup = true
+                        }
+                        .labelStyle(.iconOnly)
+                        .accessibilityHint("Shows how recommendations work")
+                        
+                        recommendButton
+                        
+                        if isOnboarding {
                             Button {
                                 onOnboardingComplete?()
                             } label: {
@@ -84,20 +88,10 @@ struct ClusterContentView: View {
                                 )
                             }
                         }
-                        .padding()
-                    } else {
-                        HStack {
-                            Button("Recommendations Info", systemImage: "info.circle") {
-                                showRecommendationsPopup = true
-                            }
-                            .labelStyle(.iconOnly)
-                            .accessibilityHint("Shows how recommendations work")
-                            
-                            recommendButton
-                        }.padding()
                     }
+                    .padding()
                 }
-                .preferredColorScheme(.dark)
+
             }
             
             if showOnboardingPopup {

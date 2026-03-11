@@ -9,105 +9,69 @@ import SwiftUI
 
 struct ProfileTabView: View {
     @EnvironmentObject var authManager: AuthManager
-    @State private var viewMode: ProfileViewMode = .list
-    
-    enum ProfileViewMode: String, CaseIterable {
-        case list = "List"
-        case graph = "Graph"
-    }
-    
+
     private var profileManager: UserProfileManager {
-        guard let userId = authManager.currentUser?.id else {
-            return UserProfileManager()
-        }
+        guard let userId = authManager.currentUser?.id else { return UserProfileManager() }
         return UserProfileManager(userId: userId)
     }
-    
+
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                // User info header
-                if let user = authManager.currentUser {
-                    userHeader(user)
-                }
-                
-                // View mode picker
-                Picker("View", selection: $viewMode) {
-                    ForEach(ProfileViewMode.allCases, id: \.self) { mode in
-                        Text(mode.rawValue).tag(mode)
+            ScrollView {
+                VStack(spacing: 18) {
+                    if let user = authManager.currentUser {
+                        VStack(spacing: 10) {
+                            Circle()
+                                .fill(Color.gray.opacity(0.2))
+                                .frame(width: 120, height: 120)
+                                .overlay(
+                                    Text(initials(user))
+                                        .font(.system(size: 40, weight: .bold, design: .serif))
+                                        .foregroundStyle(.gray)
+                                )
+
+                            Text(user.displayName)
+                                .font(.system(size: 28, weight: .bold, design: .serif))
+
+                            Text("@\(user.username)")
+                                .foregroundStyle(.secondary)
+                        }
+
+                        profileSection("DATAPOINTS") {
+                            ProfileListView(profileManager: profileManager)
+                        }
                     }
                 }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
-                .padding(.vertical, 8)
-                
-                // Content
-                switch viewMode {
-                case .list:
-                    ProfileListView(profileManager: profileManager)
-                case .graph:
-                    ProfileGraphView(profileManager: profileManager)
-                }
+                .padding(20)
             }
-            .background(Color("BackgroundColor"))
-            .navigationTitle("My Profile")
+            .background(Color("BackgroundColor").ignoresSafeArea())
+            .navigationTitle("Profile")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Log Out") {
-                        authManager.logout()
-                    }
-                    .foregroundColor(.red)
+                    Button("Log Out") { authManager.logout() }
+                        .foregroundStyle(.red)
                 }
             }
         }
     }
-    
-    private func userHeader(_ user: LocalUser) -> some View {
-        VStack(spacing: 12) {
-            // Avatar circle with initials
-            ZStack {
-                Circle()
-                    .fill(Color.accentColor.opacity(0.2))
-                    .frame(width: 72, height: 72)
-                
-                Text(String(user.firstName.prefix(1)) + String(user.lastName.prefix(1)))
-                    .font(.system(size: 28, weight: .bold, design: .serif))
-                    .foregroundColor(.accentColor)
-            }
-            
-            VStack(spacing: 4) {
-                Text(user.displayName)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                
-                Text("@\(user.username)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                
-                if let location = user.locationString {
-                    HStack(spacing: 4) {
-                        Image(systemName: "mappin")
-                            .font(.caption2)
-                        Text(location)
-                            .font(.caption)
-                    }
-                    .foregroundColor(.secondary)
-                }
-            }
-            
-            // Stats
-            HStack(spacing: 24) {
-                VStack {
-                    Text("\(profileManager.savedDatapointsCount)")
-                        .font(.headline)
-                    Text("Datapoints")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                }
-            }
-            .padding(.top, 4)
+
+    private func initials(_ user: LocalUser) -> String {
+        let f = user.firstName.prefix(1)
+        let l = user.lastName.prefix(1)
+        let value = "\(f)\(l)"
+        return value.isEmpty ? "?" : value.uppercased()
+    }
+
+    @ViewBuilder
+    private func profileSection<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text(title).font(.headline).tracking(2)
+            content()
         }
-        .padding()
+        .padding(18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(.systemGray6))
+        .clipShape(RoundedRectangle(cornerRadius: 24))
     }
 }

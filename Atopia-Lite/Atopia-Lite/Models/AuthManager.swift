@@ -21,8 +21,6 @@ class AuthManager: ObservableObject {
         loadState()
     }
     
-    // MARK: - Authentication
-    
     func signUp(username: String, password: String, firstName: String, lastName: String) -> Result<LocalUser, AuthError> {
         guard !username.trimmingCharacters(in: .whitespaces).isEmpty else {
             return .failure(.emptyUsername)
@@ -64,6 +62,7 @@ class AuthManager: ObservableObject {
     func logout() {
         currentUser = nil
         UserDefaults.standard.removeObject(forKey: currentUserIdKey)
+        KeychainHelper.delete()
     }
     
     func updateCurrentUser(_ user: LocalUser) {
@@ -73,8 +72,6 @@ class AuthManager: ObservableObject {
         }
         saveState()
     }
-    
-    // MARK: - Persistence
     
     private func loadState() {
         if let data = UserDefaults.standard.data(forKey: usersKey),

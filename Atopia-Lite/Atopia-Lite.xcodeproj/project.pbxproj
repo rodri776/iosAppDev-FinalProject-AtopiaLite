@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		20831FD12F5A3802003CACAA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 20831F302F5A3887003CACAA /* Settings.bundle */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		20831F302F5A3887003CACAA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		20831F782F5A3840003CACAA /* Atopia-Lite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Atopia-Lite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -33,6 +38,7 @@
 			isa = PBXGroup;
 			children = (
 				20831F7A2F5A3840003CACAA /* Atopia-Lite */,
+				20831F302F5A3887003CACAA /* Settings.bundle */,
 				20831F792F5A3840003CACAA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -109,6 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20831FD12F5A3802003CACAA /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

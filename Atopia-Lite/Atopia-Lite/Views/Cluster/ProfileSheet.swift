@@ -83,7 +83,7 @@ struct ProfilePopup: View {
                     )
             }
         }
-        .preferredColorScheme(.dark)
+
     }
     
     private var datapointChipsSection: some View {

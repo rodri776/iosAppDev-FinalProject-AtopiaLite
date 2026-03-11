@@ -13,6 +13,7 @@ struct OnboardingFlowView: View {
     
     enum OnboardingStep {
         case location
+        case contacts
         case cluster
     }
     
@@ -28,6 +29,13 @@ struct OnboardingFlowView: View {
                     user.longitude = lon
                     authManager.updateCurrentUser(user)
                     withAnimation {
+                        currentStep = .contacts
+                    }
+                }
+                
+            case .contacts:
+                ContactsOnboardingView {
+                    withAnimation {
                         currentStep = .cluster
                     }
                 }
@@ -42,8 +50,6 @@ struct OnboardingFlowView: View {
     
     private func completeOnboarding() {
         guard var user = authManager.currentUser else { return }
-        
-        // Sync saved datapoints from UserProfileManager to the user model
         let profileManager = UserProfileManager(userId: user.id)
         user.savedDatapoints = Array(profileManager.savedDatapoints)
         user.hasCompletedOnboarding = true

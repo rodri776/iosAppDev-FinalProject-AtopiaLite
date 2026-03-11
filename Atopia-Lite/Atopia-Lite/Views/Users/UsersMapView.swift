@@ -9,77 +9,48 @@ import SwiftUI
 import MapKit
 
 struct UsersMapView: View {
-    let results: [SimilarityService.UserSimilarityResult]
-    
-    var body: some View {
-        Map {
-            ForEach(results) { result in
-                if let lat = result.user.latitude, let lon = result.user.longitude {
-                    Annotation(
-                        result.user.displayName,
-                        coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                    ) {
-                        UserMapAnnotation(result: result)
-                    }
-                }
-            }
-        }
-        .mapStyle(.standard)
-    }
-}
+    @EnvironmentObject var authManager: AuthManager
+    @StateObject private var similarityService = SimilarityService()
 
-struct UserMapAnnotation: View {
-    let result: SimilarityService.UserSimilarityResult
-    @State private var showDetail = false
-    
     var body: some View {
-        VStack(spacing: 4) {
-            if showDetail {
-                VStack(spacing: 4) {
-                    Text(result.user.displayName)
-                        .font(.caption)
-                        .fontWeight(.bold)
-                    
-                    Text("@\(result.user.username)")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                    
-                    if let neighborhood = result.user.neighborhood {
-                        Text(neighborhood)
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-                    }
-                    
-                    Text("\(result.percentageSimilarity)% similar")
-                        .font(.caption2)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.accentColor)
-                    
-                    Text("\(result.datapointsInCommon.count) in common")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
+        NavigationStack {
+            Map {
+                // Current user marker
+                if let user = authManager.currentUser,
+                   let lat = user.latitude, let lon = user.longitude {
+                    Marker("You", coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon))
+                        .tint(.green)
                 }
-                .padding(8)
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color("BackgroundColor"))
-                        .shadow(radius: 4)
-                )
+
+                // Other users
+                ForEach(similarityService.results) { result in
+                    if let lat = result.user.latitude, let lon = result.user.longitude {
+                        Annotation(result.user.displayName,
+                                   coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon)) {
+                            VStack(spacing: 2) {
+                                Text("\(result.percentageSimilarity)%")
+                                    .font(.caption2.bold()).foregroundStyle(.white)
+                                    .padding(.horizontal, 6).padding(.vertical, 2)
+                                    .background(Color.green).clipShape(Capsule())
+
+                                Circle().fill(Color.pink.opacity(0.18))
+                                    .frame(width: 36, height: 36)
+                                    .overlay(
+                                        Text(String(result.user.firstName.prefix(1)).uppercased())
+                                            .font(.subheadline.bold()).foregroundStyle(.pink)
+                                    )
+                            }
+                        }
+                    }
+                }
             }
-            
-            ZStack {
-                Circle()
-                    .fill(Color.accentColor)
-                    .frame(width: 36, height: 36)
-                
-                Text(String(result.user.firstName.prefix(1)))
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(.white)
-            }
+            .mapStyle(.standard)
+            .navigationTitle("Map")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .onTapGesture {
-            withAnimation(.easeInOut(duration: 0.2)) {
-                showDetail.toggle()
+        .onAppear {
+            if let user = authManager.currentUser, similarityService.results.isEmpty {
+                similarityService.computeSimilarities(currentUser: user, otherUsers: MockUsers.all)
             }
         }
     }

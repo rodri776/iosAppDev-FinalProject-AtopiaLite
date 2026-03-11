@@ -82,7 +82,7 @@ struct RecommendationsPopup: View {
                     )
             }
         }
-        .preferredColorScheme(.dark)
+
     }
     
     private func sectionHeader(_ title: String, icon: String) -> some View {

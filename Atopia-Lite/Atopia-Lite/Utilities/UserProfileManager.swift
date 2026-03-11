@@ -20,7 +20,6 @@ class UserProfileManager: ObservableObject {
         load()
     }
     
-    /// Extract just the labels from saved datapoint paths
     var savedDatapointLabels: [String] {
         savedDatapoints.compactMap { $0.components(separatedBy: "/").last }
     }

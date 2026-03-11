@@ -7,9 +7,15 @@
 
 import SwiftUI
 
-// MARK: - Chip Views
+extension View {
+    func fieldStyle() -> some View {
+        self
+            .padding()
+            .background(Color(.systemGray5))
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+    }
+}
 
-/// Simple chip view for displaying tags
 @ViewBuilder
 func plainChip(_ text: String) -> some View {
     Text(text.uppercased())
@@ -23,7 +29,6 @@ func plainChip(_ text: String) -> some View {
         .cornerRadius(12)
 }
 
-/// Background chip with icon, text, and label
 @ViewBuilder
 func bgChip(_ icon: String, _ text: String, _ label: String) -> some View {
     HStack(spacing: 6) {
@@ -48,7 +53,6 @@ func bgChip(_ icon: String, _ text: String, _ label: String) -> some View {
     )
 }
 
-/// Category tab button
 @ViewBuilder
 func categoryTab(_ icon: String, _ name: String, _ count: Int, _ selected: Bool) -> some View {
     HStack(spacing: 6) {
@@ -73,7 +77,6 @@ func categoryTab(_ icon: String, _ name: String, _ count: Int, _ selected: Bool)
     )
 }
 
-/// Section card wrapper
 @ViewBuilder
 func sectionCard<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
     VStack(alignment: .leading, spacing: 12) {
@@ -95,9 +98,6 @@ func sectionCard<Content: View>(title: String, @ViewBuilder content: () -> Conte
     )
 }
 
-// MARK: - FlowLayout
-
-/// A layout that arranges views in a flowing manner (wrapping to next line when needed)
 struct FlowLayout: Layout {
     var spacing: CGFloat = 8
     
@@ -126,7 +126,6 @@ struct FlowLayout: Layout {
                 let size = subview.sizeThatFits(.unspecified)
                 
                 if currentX + size.width > maxWidth && currentX > 0 {
-                    // Move to next line
                     currentX = 0
                     currentY += lineHeight + spacing
                     lineHeight = 0

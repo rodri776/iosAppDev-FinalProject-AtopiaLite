@@ -18,7 +18,6 @@ class SimilarityService: ObservableObject {
     init(embeddingManager: EmbeddingManager? = nil) {
         self.embeddingManager = embeddingManager ?? EmbeddingManager()
         
-        // Pre-embed all dataset labels
         let dataset = DatasetLoader.loadDataset()
         self.embeddingManager.preEmbed(labels: dataset.items.map { $0.label })
     }
@@ -68,7 +67,6 @@ class SimilarityService: ObservableObject {
                 let similarity: Double
                 if let otherCentroid = embeddingManager.calculateCentroid(vectors: otherVectors) {
                     let raw = embeddingManager.cosineSimilarity(currentCentroid, otherCentroid)
-                    // Cosine similarity for NLEmbedding typically ranges 0 to 1 for related content
                     similarity = max(0, min(1, (raw + 1) / 2))
                 } else {
                     similarity = 0

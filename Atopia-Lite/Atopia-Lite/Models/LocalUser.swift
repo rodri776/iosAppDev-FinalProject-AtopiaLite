@@ -20,6 +20,7 @@ struct LocalUser: Codable, Identifiable {
     var city: String?
     var neighborhood: String?
     var state: String?
+    var phoneNumber: String?
     var savedDatapoints: [String]
     var hasCompletedOnboarding: Bool
     

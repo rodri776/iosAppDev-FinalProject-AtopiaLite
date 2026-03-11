@@ -9,60 +9,42 @@ import SwiftUI
 
 struct ProfileListView: View {
     let profileManager: UserProfileManager
-    
+
     private var savedCategories: [SavedCategory] {
         let result = DatasetLoader.loadDataset()
         return profileManager.getSavedDatapointsByCategory(allDataItems: result.items)
     }
-    
+
     var body: some View {
         if savedCategories.isEmpty {
-            emptyState
+            VStack(spacing: 12) {
+                Image(systemName: "circle.hexagongrid")
+                    .font(.system(size: 48, weight: .light))
+                    .foregroundStyle(.secondary)
+                Text("No Datapoints Yet")
+                    .font(.headline)
+                Text("Explore the graph to save datapoints that describe you")
+                    .font(.subheadline).foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+            .padding()
         } else {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    ForEach(savedCategories) { category in
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack(spacing: 8) {
-                                Circle()
-                                    .fill(category.color)
-                                    .frame(width: 10, height: 10)
-                                
-                                Text(category.name.uppercased())
-                                    .font(.system(size: 12, weight: .bold, design: .monospaced))
-                                    .foregroundColor(.secondary)
-                                    .tracking(1)
-                            }
-                            
-                            FlowLayout(spacing: 8) {
-                                ForEach(category.datapoints) { dp in
-                                    DatapointChip(datapoint: dp, category: category)
-                                }
-                            }
+            VStack(alignment: .leading, spacing: 14) {
+                ForEach(savedCategories) { category in
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(category.name.uppercased())
+                            .font(.headline).foregroundStyle(.secondary)
+
+                        ForEach(category.datapoints) { dp in
+                            Text(dp.label.uppercased())
+                                .font(.headline.bold())
+                                .padding(.horizontal, 14).padding(.vertical, 10)
+                                .background(Color(.systemGray5))
+                                .clipShape(Capsule())
                         }
                     }
                 }
-                .padding()
             }
         }
-    }
-    
-    private var emptyState: some View {
-        VStack(spacing: 16) {
-            Spacer()
-            Image(systemName: "circle.hexagongrid")
-                .font(.system(size: 48, weight: .light))
-                .foregroundColor(.secondary)
-            
-            Text("No Datapoints Yet")
-                .font(.headline)
-            
-            Text("Explore the graph to save datapoints that describe you")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-            Spacer()
-        }
-        .padding()
     }
 }

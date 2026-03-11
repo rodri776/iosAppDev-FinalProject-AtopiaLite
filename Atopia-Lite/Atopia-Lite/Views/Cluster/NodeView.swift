@@ -76,9 +76,9 @@ struct NodeView: View {
             // Glow
             if node.isRecommended && !node.isSavedToProfile {
                 Capsule()
-                    .fill(Color("RecPurple1").opacity(0.3))
-                    .blur(radius: 12)
-                    .scaleEffect(1.2)
+                    .fill(Color("RecPurple1").opacity(0.5))
+                    .blur(radius: 10)
+                    .scaleEffect(1.15)
             } else {
                 let hasSelectedChildren = node.type != .datapoint && node.savedCount > 0
                 let isSelected = (node.type == .me) || (node.type == .datapoint && node.isSavedToProfile) || hasSelectedChildren
@@ -258,8 +258,8 @@ struct NodeView: View {
         if node.isRecommended && !node.isSavedToProfile {
             return LinearGradient(
                 colors: [
-                    Color("RecPurple1").opacity(0.9),
-                    Color("RecPurple2").opacity(0.7)
+                    Color("RecPurple1"),
+                    Color("RecPurple2").opacity(0.9)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing

@@ -134,7 +134,7 @@ struct OnboardingPopup: View {
                     )
             }
         }
-        .preferredColorScheme(.dark)
+
     }
 }
 
