@@ -10,10 +10,13 @@ import Foundation
 struct DatasetLoader {
     
     static func loadDataset() -> (items: [DataItem], hierarchy: [CategoryNode]) {
+        print("[DatasetLoader] Loading dataset from embedded JSON (\(datasetJSON.count) characters)")
         let data = Data(datasetJSON.utf8)
         guard let dataItems = try? JSONDecoder().decode([DataItem].self, from: data) else {
+            print("[DatasetLoader] ERROR: JSON decode failed — returning empty dataset")
             return ([], [])
         }
+        print("[DatasetLoader] Decoded \(dataItems.count) DataItems")
         
         var categoryMap: [String: CategoryNode] = [:]
         
@@ -23,8 +26,9 @@ struct DatasetLoader {
                 categoryMap[item.category] = CategoryNode(name: item.category)
             }
             var category = categoryMap[item.category]!
+            let itemSubcategory = item.subcategory ?? "general"
             
-            if let subcategoryIndex = category.subcategories.firstIndex(where: { $0.name == item.subcategory }) {
+            if let subcategoryIndex = category.subcategories.firstIndex(where: { $0.name == itemSubcategory }) {
                 var subcategory = category.subcategories[subcategoryIndex]
                 
                 if let subSubcategoryName = item.sub_subcategory {
@@ -41,7 +45,7 @@ struct DatasetLoader {
                 
                 category.subcategories[subcategoryIndex] = subcategory
             } else {
-                var newSubcategory = SubcategoryNode(name: item.subcategory)
+                var newSubcategory = SubcategoryNode(name: itemSubcategory)
             
                 if let subSubcategoryName = item.sub_subcategory {
                     var newSubSubcategory = SubSubcategoryNode(name: subSubcategoryName)
@@ -57,6 +61,7 @@ struct DatasetLoader {
         }
         
         let categoryHierarchy = Array(categoryMap.values).sorted { $0.name < $1.name }
+        print("[DatasetLoader] Built hierarchy: \(categoryHierarchy.count) categories — \(categoryHierarchy.map { $0.name })")
         
         return (dataItems, categoryHierarchy)
     }

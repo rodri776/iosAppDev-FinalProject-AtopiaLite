@@ -43,6 +43,7 @@ class GraphViewModel: ObservableObject {
     private var nodeMetadata: [UUID: NodeMetadata] = [:]
     
     init(profileManager: UserProfileManager? = nil) {
+        print("[Graph] GraphViewModel initializing")
         self.physicsEngine = PhysicsEngine()
         
         loadDataset()
@@ -60,12 +61,14 @@ class GraphViewModel: ObservableObject {
         embeddingManager.preEmbed(labels: dataItems.map { $0.label })
         
         startPhysics()
+        print("[Graph] GraphViewModel ready: \(dataItems.count) items, \(categoryHierarchy.count) categories")
     }
     
     private func loadDataset() {
         let result = DatasetLoader.loadDataset()
         dataItems = result.items
         categoryHierarchy = result.hierarchy
+        print("[Graph] Dataset loaded: \(dataItems.count) items, \(categoryHierarchy.count) categories")
     }
     
     func setupInitialNode(in size: CGSize) {
@@ -104,6 +107,7 @@ class GraphViewModel: ObservableObject {
     func toggleNode(nodeId: UUID) {
         guard let index = nodes.firstIndex(where: { $0.id == nodeId }) else { return }
         let node = nodes[index]
+        print("[Graph] Node tapped: '\(node.label)' (type=\(node.type), expanded=\(node.isExpanded))")
         
         if node.type == .datapoint {
             tapDatapoint(nodeId: nodeId)
@@ -133,6 +137,9 @@ class GraphViewModel: ObservableObject {
             nodes[index].isSavedToProfile.toggle()
         }
         
+        let saved = nodes[index].isSavedToProfile
+        print("[Graph] Datapoint '\(nodes[index].label)' \(saved ? "SAVED" : "REMOVED")")
+        
         if let metadata = nodeMetadata[nodeId] {
             let path = profileManager.datapointPath(
                 category: metadata.category,
@@ -140,6 +147,7 @@ class GraphViewModel: ObservableObject {
                 subSubcategory: metadata.subSubcategory,
                 label: nodes[index].label
             )
+            print("[Graph] Datapoint path: \(path)")
             
             if nodes[index].isSavedToProfile {
                 profileManager.saveDatapoint(path)
@@ -164,7 +172,9 @@ class GraphViewModel: ObservableObject {
     }
     
     private func expandNode(node: Node) {
+        print("[Graph] Expanding node: '\(node.label)' (type=\(node.type))")
         guard let result = nodeExpansionManager.expandNode(node, nodes: nodes, nodeMetadata: nodeMetadata) else {
+            print("[Graph] No children to expand for '\(node.label)'")
             return
         }
         
@@ -183,6 +193,7 @@ class GraphViewModel: ObservableObject {
         for (key, value) in creationResult.metadata {
             nodeMetadata[key] = value
         }
+        print("[Graph] Expanded '\(node.label)': added \(creationResult.nodes.count) child nodes, \(creationResult.edges.count) edges")
         
         if let parentIndex = nodes.firstIndex(where: { $0.id == node.id }) {
             nodes[parentIndex].childIds = creationResult.nodes.map { $0.id }
@@ -199,6 +210,7 @@ class GraphViewModel: ObservableObject {
     }
     
     private func collapseNode(nodeId: UUID) {
+        print("[Graph] Collapsing node id=\(nodeId)")
         withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
             graphEngine.collapseNode(nodeId: nodeId, nodes: &nodes, edges: &edges)
         }
@@ -213,10 +225,12 @@ class GraphViewModel: ObservableObject {
     }
     
     func generateRecommendations() {
+        print("[Graph] Generating recommendations (saved=\(profileManager.savedDatapointsCount))")
         isCalculatingRecommendations = true
         
         Task {
             if !embeddingManager.isReady {
+                print("[Graph] Waiting for embedding manager")
                 await embeddingManager.waitUntilReady()
             }
             
@@ -229,9 +243,11 @@ class GraphViewModel: ObservableObject {
             
             switch result {
             case .success(let recommendations):
+                print("[Graph] Recommendations generated: \(recommendations.count) items")
                 recommendationError = nil
                 showRecommendations(recommendations)
             case .failure(let error):
+                print("[Graph] Recommendation error: \(error.localizedDescription)")
                 recommendationError = error.localizedDescription
                 instructionState = .error(error.localizedDescription)
                 scheduleInstructionReset(to: .selectingDatapoint)
@@ -244,6 +260,7 @@ class GraphViewModel: ObservableObject {
     }
     
     private func showRecommendations(_ recommendations: [ClusterRecommendation]) {
+        print("[Graph] Showing \(recommendations.count) recommendations on cluster: \(recommendations.map { $0.label })")
         guard !recommendations.isEmpty else {
             instructionState = .error("No new recommendations found")
             scheduleInstructionReset(to: .selectingDatapoint)
@@ -283,6 +300,7 @@ class GraphViewModel: ObservableObject {
     }
     
     func dismissRecommendations() {
+        print("[Graph] Dismissing recommendations")
         let nodeIdsToRemove = Set(nodes.filter { $0.isFromRecommendation }.map { $0.id })
         
         withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {

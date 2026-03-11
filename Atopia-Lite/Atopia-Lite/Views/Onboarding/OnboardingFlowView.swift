@@ -22,6 +22,7 @@ struct OnboardingFlowView: View {
             switch currentStep {
             case .location:
                 LocationOnboardingView { city, state, lat, lon in
+                    print("[Onboarding] Location step complete: city=\(city ?? "nil"), state=\(state ?? "nil"), lat=\(lat ?? 0), lon=\(lon ?? 0)")
                     guard var user = authManager.currentUser else { return }
                     user.city = city
                     user.state = state
@@ -30,6 +31,7 @@ struct OnboardingFlowView: View {
                     authManager.updateCurrentUser(user)
                     withAnimation {
                         currentStep = .contacts
+                        print("[Onboarding] Transitioning to step: contacts")
                     }
                 }
                 
@@ -37,11 +39,13 @@ struct OnboardingFlowView: View {
                 ContactsOnboardingView {
                     withAnimation {
                         currentStep = .cluster
+                        print("[Onboarding] Transitioning to step: cluster")
                     }
                 }
                 
             case .cluster:
                 OnboardingClusterView {
+                    print("[Onboarding] Cluster step complete — finishing onboarding")
                     completeOnboarding()
                 }
             }
@@ -53,6 +57,7 @@ struct OnboardingFlowView: View {
         let profileManager = UserProfileManager(userId: user.id)
         user.savedDatapoints = Array(profileManager.savedDatapoints)
         user.hasCompletedOnboarding = true
+        print("[Onboarding] Onboarding complete for userId=\(user.id), saved \(user.savedDatapoints.count) datapoints, setting hasCompletedOnboarding=true")
         authManager.updateCurrentUser(user)
     }
 }

@@ -16,19 +16,23 @@ class EmbeddingManager {
     private var loadingTask: Task<Void, Never>?
     
     init() {
+        print("[Embedding] Initializing EmbeddingManager, loading NLEmbedding model")
         loadingTask = Task {
             let model = NLEmbedding.sentenceEmbedding(for: .english)
             self.embedding = model
             self.isReady = (model != nil)
+            print("[Embedding] NLEmbedding model loaded: \(model != nil ? "available" : "nil"), isReady=\(self.isReady)")
         }
     }
     
     func preEmbed(labels: [String]) {
+        print("[Embedding] Pre-embedding \(labels.count) labels")
         Task {
             await loadingTask?.value
             for label in labels {
                 _ = getEmbedding(for: label)
             }
+            print("[Embedding] Pre-embedding complete, cache size: \(embeddingCache.count)")
         }
     }
     
@@ -104,6 +108,7 @@ class EmbeddingManager {
         from candidates: [(label: String, vector: [Double])],
         limit: Int
     ) -> [String] {
+        print("[Embedding] Finding most similar: \(candidates.count) candidates, limit=\(limit)")
         var scored: [(label: String, similarity: Double)] = []
         
         for candidate in candidates {
@@ -112,6 +117,8 @@ class EmbeddingManager {
         }
         
         let sorted = scored.sorted { $0.similarity > $1.similarity }
-        return Array(sorted.prefix(limit).map { $0.label })
+        let results = Array(sorted.prefix(limit).map { $0.label })
+        print("[Embedding] Top \(results.count) similar: \(results)")
+        return results
     }
 }

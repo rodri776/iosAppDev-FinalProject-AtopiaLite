@@ -49,8 +49,11 @@ struct ProfileTabView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Log Out") { authManager.logout() }
-                        .foregroundStyle(.red)
+                    Button("Log Out") {
+                        print("[Profile] 'Log Out' button tapped for user: \(authManager.currentUser?.username ?? "nil")")
+                        authManager.logout()
+                    }
+                    .foregroundStyle(.red)
                 }
             }
         }

@@ -18,11 +18,14 @@ struct RootView: View {
                 if let user = authManager.currentUser {
                     if user.hasCompletedOnboarding {
                         MainTabView()
+                            .onAppear { print("[Root] Showing MainTabView for user: \(user.username)") }
                     } else {
                         OnboardingFlowView()
+                            .onAppear { print("[Root] Showing OnboardingFlowView for user: \(user.username)") }
                     }
                 } else {
                     AuthView()
+                        .onAppear { print("[Root] Showing AuthView (no authenticated user)") }
                 }
             }
             .animation(.easeInOut(duration: 0.3), value: authManager.isAuthenticated)
@@ -48,11 +51,15 @@ struct RootView: View {
     }
     
     private func dismissSplash() {
+        print("[Root] Splash screen dismissed")
         withAnimation(.easeOut(duration: 0.4)) {
             showSplash = false
         }
         
-        if UserDefaults.standard.integer(forKey: "launchCount") == 3 {
+        let launchCount = UserDefaults.standard.integer(forKey: "launchCount")
+        print("[Root] Launch count: \(launchCount)")
+        if launchCount == 3 {
+            print("[Root] Showing rating alert (3rd launch)")
             showRatingAlert = true
         }
     }

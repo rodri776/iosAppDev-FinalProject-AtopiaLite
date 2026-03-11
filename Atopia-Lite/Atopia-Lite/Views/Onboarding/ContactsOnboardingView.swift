@@ -43,11 +43,13 @@ struct ContactsOnboardingView: View {
             VStack(spacing: 16) {
                 if !hasSharedContacts {
                     Button {
+                        print("[Contacts] 'Share Contacts' button tapped")
                         isLoading = true
                         // Simulate contact loading
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                             isLoading = false
                             hasSharedContacts = true
+                            print("[Contacts] Simulated contact scan complete: 25 contacts found")
                         }
                     } label: {
                         HStack(spacing: 8) {
@@ -69,6 +71,7 @@ struct ContactsOnboardingView: View {
                 }
                 
                 Button {
+                    print("[Contacts] '\(hasSharedContacts ? "Continue" : "Skip")' tapped")
                     onComplete()
                 } label: {
                     Text(hasSharedContacts ? "Continue" : "Skip")

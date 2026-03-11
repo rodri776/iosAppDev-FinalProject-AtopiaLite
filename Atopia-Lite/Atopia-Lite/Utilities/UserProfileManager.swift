@@ -17,6 +17,7 @@ class UserProfileManager: ObservableObject {
     
     init(userId: String = "default") {
         self.userId = userId
+        print("[Profile] Initializing UserProfileManager for userId: \(userId)")
         load()
     }
     
@@ -33,11 +34,13 @@ class UserProfileManager: ObservableObject {
     }
     
     func saveDatapoint(_ path: String) {
+        print("[Profile] Saving datapoint: \(path)")
         savedDatapoints.insert(path)
         persist()
     }
     
     func removeDatapoint(_ path: String) {
+        print("[Profile] Removing datapoint: \(path)")
         savedDatapoints.remove(path)
         persist()
     }
@@ -94,12 +97,16 @@ class UserProfileManager: ObservableObject {
     private func load() {
         if let datapointsArray = UserDefaults.standard.array(forKey: savedDatapointsKey) as? [String] {
             savedDatapoints = Set(datapointsArray)
+            print("[Profile] Loaded \(datapointsArray.count) datapoints from UserDefaults key '\(savedDatapointsKey)'")
+        } else {
+            print("[Profile] No saved datapoints found for key '\(savedDatapointsKey)'")
         }
     }
     
     private func persist() {
         let datapointsArray = Array(savedDatapoints)
         UserDefaults.standard.set(datapointsArray, forKey: savedDatapointsKey)
+        print("[Profile] Persisted \(datapointsArray.count) datapoints to UserDefaults key '\(savedDatapointsKey)'")
     }
     
     func datapointPath(category: String?, subcategory: String?, subSubcategory: String?, label: String) -> String {

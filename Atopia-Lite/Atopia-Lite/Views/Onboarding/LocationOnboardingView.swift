@@ -56,8 +56,10 @@ struct LocationOnboardingView: View {
 
                 Button {
                     if locationFetcher.locationObtained {
+                        print("[Location] 'Continue' tapped — passing location: city=\(locationFetcher.city ?? "nil"), state=\(locationFetcher.state ?? "nil"), lat=\(locationFetcher.latitude ?? 0), lon=\(locationFetcher.longitude ?? 0)")
                         onComplete(locationFetcher.city, locationFetcher.state, locationFetcher.latitude, locationFetcher.longitude)
                     } else {
+                        print("[Location] 'Skip' tapped — no location data")
                         onComplete(nil, nil, nil, nil)
                     }
                 } label: {
@@ -95,10 +97,12 @@ private class LocationFetcher: NSObject, ObservableObject, CLLocationManagerDele
     }
 
     func requestLocation() {
+        print("[Location] 'Share Location' button tapped, requesting location")
         isRequesting = true
         
         #if targetEnvironment(simulator)
         // Simulate location fetch for demo on simulator
+        print("[Location] Running on simulator — using simulated Chicago coordinates")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
             guard let self else { return }
             self.latitude = 41.8781
@@ -107,12 +111,15 @@ private class LocationFetcher: NSObject, ObservableObject, CLLocationManagerDele
             self.state = "IL"
             self.locationObtained = true
             self.isRequesting = false
+            print("[Location] Simulated location: lat=41.8781, lon=-87.6298, city=Chicago, state=IL")
         }
         #else
         let status = manager.authorizationStatus
+        print("[Location] Authorization status: \(status.rawValue)")
         if status == .authorizedWhenInUse || status == .authorizedAlways {
             manager.requestLocation()
         } else {
+            print("[Location] Requesting location authorization")
             manager.requestWhenInUseAuthorization()
         }
         #endif
@@ -120,9 +127,12 @@ private class LocationFetcher: NSObject, ObservableObject, CLLocationManagerDele
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         let status = manager.authorizationStatus
+        print("[Location] Authorization changed: status=\(status.rawValue)")
         if isRequesting && (status == .authorizedWhenInUse || status == .authorizedAlways) {
+            print("[Location] Authorized — requesting location")
             manager.requestLocation()
         } else if status == .denied || status == .restricted {
+            print("[Location] Authorization denied/restricted")
             isRequesting = false
         }
     }
@@ -131,19 +141,22 @@ private class LocationFetcher: NSObject, ObservableObject, CLLocationManagerDele
         guard let location = locations.last else { return }
         latitude = location.coordinate.latitude
         longitude = location.coordinate.longitude
+        print("[Location] Location received: lat=\(location.coordinate.latitude), lon=\(location.coordinate.longitude)")
 
         let geocoder = CLGeocoder()
+        print("[Location] Starting reverse geocode")
         geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, _ in
             guard let self, let placemark = placemarks?.first else { return }
             self.city = placemark.locality
             self.state = placemark.administrativeArea
             self.locationObtained = true
             self.isRequesting = false
+            print("[Location] Reverse geocode result: city=\(placemark.locality ?? "nil"), state=\(placemark.administrativeArea ?? "nil")")
         }
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Location error: \(error.localizedDescription)")
+        print("[Location] ERROR: \(error.localizedDescription)")
         isRequesting = false
     }
 }

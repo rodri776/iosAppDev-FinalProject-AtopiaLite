@@ -77,13 +77,18 @@ struct AuthView: View {
         .padding()
         .background(Color("BackgroundColor").ignoresSafeArea())
         .onAppear {
+            print("[AuthView] View appeared, checking Keychain for saved credentials")
             if let creds = KeychainHelper.retrieve() {
                 username = creds.username
                 password = creds.password
+                print("[AuthView] Keychain credentials found for username: \(creds.username)")
+            } else {
+                print("[AuthView] No saved credentials in Keychain")
             }
         }
         .alert("Save Password?", isPresented: $showSavePasswordAlert) {
             Button("Save to Device") {
+                print("[AuthView] 'Save to Device' tapped — saving credentials to Keychain for user: \(username)")
                 KeychainHelper.save(username: username, password: pendingPassword)
             }
             Button("Not Now", role: .cancel) { }
@@ -95,20 +100,28 @@ struct AuthView: View {
     private func performAction() {
         errorMessage = nil
         if isSignUp {
+            print("[AuthView] Sign Up button tapped for username: \(username)")
             guard !firstName.trimmingCharacters(in: .whitespaces).isEmpty,
                   !lastName.trimmingCharacters(in: .whitespaces).isEmpty else {
+                print("[AuthView] Sign-up validation failed: missing first/last name")
                 errorMessage = "Please enter your first and last name"; return
             }
             switch authManager.signUp(username: username, password: password, firstName: firstName, lastName: lastName) {
             case .success:
+                print("[AuthView] Sign-up succeeded, prompting to save password")
                 pendingPassword = password
                 showSavePasswordAlert = true
             case .failure(let e):
+                print("[AuthView] Sign-up failed: \(e.localizedDescription)")
                 errorMessage = e.localizedDescription
             }
         } else {
+            print("[AuthView] Log In button tapped for username: \(username)")
             if case .failure(let e) = authManager.login(username: username, password: password) {
+                print("[AuthView] Login failed: \(e.localizedDescription)")
                 errorMessage = e.localizedDescription
+            } else {
+                print("[AuthView] Login succeeded")
             }
         }
     }

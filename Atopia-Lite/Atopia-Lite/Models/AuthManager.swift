@@ -18,17 +18,22 @@ class AuthManager: ObservableObject {
     private let currentUserIdKey = "AtopiaLite.currentUserId"
     
     init() {
+        print("[Auth] AuthManager initializing, loading state from UserDefaults")
         loadState()
     }
     
     func signUp(username: String, password: String, firstName: String, lastName: String) -> Result<LocalUser, AuthError> {
+        print("[Auth] Sign-up attempt for username: \(username)")
         guard !username.trimmingCharacters(in: .whitespaces).isEmpty else {
+            print("[Auth] Sign-up failed: empty username")
             return .failure(.emptyUsername)
         }
         guard !password.isEmpty else {
+            print("[Auth] Sign-up failed: empty password")
             return .failure(.emptyPassword)
         }
         guard !allUsers.contains(where: { $0.username.lowercased() == username.lowercased() }) else {
+            print("[Auth] Sign-up failed: username '\(username)' already taken")
             return .failure(.usernameTaken)
         }
         
@@ -44,28 +49,34 @@ class AuthManager: ObservableObject {
         allUsers.append(user)
         currentUser = user
         saveState()
+        print("[Auth] Sign-up success: userId=\(user.id), username=\(user.username)")
         return .success(user)
     }
     
     func login(username: String, password: String) -> Result<LocalUser, AuthError> {
+        print("[Auth] Login attempt for username: \(username)")
         guard let user = allUsers.first(where: {
             $0.username.lowercased() == username.lowercased() &&
             $0.passwordHash == LocalUser.hashPassword(password)
         }) else {
+            print("[Auth] Login failed: invalid credentials for '\(username)'")
             return .failure(.invalidCredentials)
         }
         currentUser = user
         saveState()
+        print("[Auth] Login success: userId=\(user.id), username=\(user.username)")
         return .success(user)
     }
     
     func logout() {
+        print("[Auth] Logout: userId=\(currentUser?.id ?? "nil"), clearing UserDefaults key '\(currentUserIdKey)' and Keychain")
         currentUser = nil
         UserDefaults.standard.removeObject(forKey: currentUserIdKey)
         KeychainHelper.delete()
     }
     
     func updateCurrentUser(_ user: LocalUser) {
+        print("[Auth] Updating user: userId=\(user.id), onboarded=\(user.hasCompletedOnboarding), datapoints=\(user.savedDatapoints.count)")
         currentUser = user
         if let index = allUsers.firstIndex(where: { $0.id == user.id }) {
             allUsers[index] = user
@@ -77,19 +88,29 @@ class AuthManager: ObservableObject {
         if let data = UserDefaults.standard.data(forKey: usersKey),
            let users = try? JSONDecoder().decode([LocalUser].self, from: data) {
             allUsers = users
+            print("[Auth] Loaded \(users.count) users from UserDefaults key '\(usersKey)'")
+        } else {
+            print("[Auth] No saved users found in UserDefaults key '\(usersKey)'")
         }
         
         if let currentId = UserDefaults.standard.string(forKey: currentUserIdKey),
            let user = allUsers.first(where: { $0.id == currentId }) {
             currentUser = user
+            print("[Auth] Restored session for userId=\(currentId), username=\(user.username)")
+        } else {
+            print("[Auth] No active session found in UserDefaults key '\(currentUserIdKey)'")
         }
     }
     
     private func saveState() {
         if let data = try? JSONEncoder().encode(allUsers) {
             UserDefaults.standard.set(data, forKey: usersKey)
+            print("[Auth] Saved \(allUsers.count) users to UserDefaults key '\(usersKey)'")
+        } else {
+            print("[Auth] ERROR: Failed to encode users for UserDefaults")
         }
         UserDefaults.standard.set(currentUser?.id, forKey: currentUserIdKey)
+        print("[Auth] Saved currentUserId=\(currentUser?.id ?? "nil") to UserDefaults key '\(currentUserIdKey)'")
     }
 }
 

@@ -15,6 +15,7 @@ class RecommendationDisplayManager {
         nodes: [Node],
         nodeMetadata: [UUID: NodeMetadata]
     ) -> NodeCreationResult {
+        print("[RecDisplay] Creating recommendation nodes for \(recommendations.count) recommendations")
         var allNewNodes: [Node] = []
         var allNewEdges: [Edge] = []
         var allNewMetadata: [UUID: NodeMetadata] = [:]
@@ -70,6 +71,7 @@ class RecommendationDisplayManager {
             }
         }
         
+        print("[RecDisplay] Created \(allNewNodes.count) recommendation nodes, \(allNewEdges.count) edges")
         return NodeCreationResult(nodes: allNewNodes, edges: allNewEdges, metadata: allNewMetadata)
     }
     

@@ -79,7 +79,7 @@ struct DataItem: Codable {
     let id: String
     let label: String
     let category: String
-    let subcategory: String
+    let subcategory: String?
     let sub_subcategory: String?
     let tags: [String]
 }

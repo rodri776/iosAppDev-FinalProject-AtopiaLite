@@ -12,6 +12,7 @@ struct KeychainHelper {
     private static let service = "com.atopia-lite.credentials"
     
     static func save(username: String, password: String) {
+        print("[Keychain] Saving credentials for username: \(username), service: \(service)")
         let passwordData = Data(password.utf8)
         delete()
         
@@ -22,10 +23,12 @@ struct KeychainHelper {
             kSecValueData as String: passwordData
         ]
         
-        SecItemAdd(query as CFDictionary, nil)
+        let status = SecItemAdd(query as CFDictionary, nil)
+        print("[Keychain] SecItemAdd status: \(status) (\(status == errSecSuccess ? "success" : "error"))")
     }
     
     static func retrieve() -> (username: String, password: String)? {
+        print("[Keychain] Retrieving credentials for service: \(service)")
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
@@ -42,17 +45,21 @@ struct KeychainHelper {
               let username = item[kSecAttrAccount as String] as? String,
               let passwordData = item[kSecValueData as String] as? Data,
               let password = String(data: passwordData, encoding: .utf8) else {
+            print("[Keychain] Retrieve failed: status=\(status)")
             return nil
         }
         
+        print("[Keychain] Retrieve success for username: \(username)")
         return (username, password)
     }
     
     static func delete() {
+        print("[Keychain] Deleting credentials for service: \(service)")
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service
         ]
-        SecItemDelete(query as CFDictionary)
+        let status = SecItemDelete(query as CFDictionary)
+        print("[Keychain] SecItemDelete status: \(status)")
     }
 }

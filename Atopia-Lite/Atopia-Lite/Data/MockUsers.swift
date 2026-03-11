@@ -16,7 +16,12 @@ enum MockUsers {
             latitude: 41.9088, longitude: -87.6796,
             city: "Chicago", neighborhood: "Wicker Park", state: "IL",
             phoneNumber: "3125550101",
-            savedDatapoints: ["yoga", "photography", "cooking", "graphic-design", "reading", "the-white-lotus", "cycling"],
+            savedDatapoints: [
+                "yoga", "photography", "cooking", "graphic-design", "reading",
+                "the-white-lotus", "cycling", "pilates", "taylor-swift",
+                "gardening", "trying-new-things", "mindfulness", "baking",
+                "fashion-styling", "stranger-things"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -26,7 +31,12 @@ enum MockUsers {
             latitude: 41.8231, longitude: -87.6177,
             city: "Chicago", neighborhood: "Bronzeville", state: "IL",
             phoneNumber: "3125550102",
-            savedDatapoints: ["music-production", "playing-an-instrument", "video-games", "cooking", "going-to-concerts", "basketball"],
+            savedDatapoints: [
+                "music-production", "playing-an-instrument", "video-games",
+                "cooking", "going-to-concerts", "basketball", "drake",
+                "nba", "grand-theft-auto-v", "kendrick-lamar", "rap",
+                "the-joe-rogan-experience", "soccer"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -36,7 +46,13 @@ enum MockUsers {
             latitude: 41.8517, longitude: -87.6315,
             city: "Chicago", neighborhood: "Chinatown", state: "IL",
             phoneNumber: "3125550103",
-            savedDatapoints: ["data-analysis", "board-games", "coding-projects", "reading", "chess-strategy-games", "research-learning", "baking"],
+            savedDatapoints: [
+                "data-analysis", "board-games", "coding-projects", "reading",
+                "chess-strategy-games", "research-learning", "baking",
+                "puzzles-brain-games", "rationalism", "dune",
+                "interstellar", "stranger-things", "hiking",
+                "systems-theory"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -46,7 +62,12 @@ enum MockUsers {
             latitude: 41.8565, longitude: -87.6637,
             city: "Chicago", neighborhood: "Pilsen", state: "IL",
             phoneNumber: "3125550104",
-            savedDatapoints: ["cooking", "cycling", "soccer", "running", "gardening", "trying-new-things"],
+            savedDatapoints: [
+                "cooking", "cycling", "soccer", "running", "gardening",
+                "trying-new-things", "bad-bunny", "premier-league",
+                "hosting-dinner-parties", "baking", "hiking",
+                "socializing-hanging-out", "active-lifestyle"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -56,7 +77,13 @@ enum MockUsers {
             latitude: 42.0087, longitude: -87.6685,
             city: "Chicago", neighborhood: "Rogers Park", state: "IL",
             phoneNumber: "3125550105",
-            savedDatapoints: ["poetry", "writing", "volunteering", "literary-fiction", "nature-walks", "language-learning", "clubs-organizations"],
+            savedDatapoints: [
+                "writing", "volunteering", "reading", "nature-walks",
+                "language-learning", "clubs-organizations", "social-justice",
+                "activism", "meditation", "human-rights", "1984",
+                "the-great-gatsby", "history", "ethics",
+                "the-daily", "education"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -66,7 +93,12 @@ enum MockUsers {
             latitude: 41.8379, longitude: -87.6506,
             city: "Chicago", neighborhood: "Bridgeport", state: "IL",
             phoneNumber: "3125550106",
-            savedDatapoints: ["home-projects", "repair-fixing-things", "rock-climbing", "camping", "fishing", "crafting-diy"],
+            savedDatapoints: [
+                "home-projects", "repair-fixing-things", "hiking",
+                "camping", "fishing", "crafting-diy", "football",
+                "nfl", "ice-hockey", "organizing", "running",
+                "active-lifestyle", "the-joe-rogan-experience"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -76,7 +108,13 @@ enum MockUsers {
             latitude: 41.9214, longitude: -87.6513,
             city: "Chicago", neighborhood: "Lincoln Park", state: "IL",
             phoneNumber: "3125550107",
-            savedDatapoints: ["product-strategy", "dancing", "cooking", "hosting-dinner-parties", "yoga", "fashion-styling", "trying-new-things"],
+            savedDatapoints: [
+                "product-strategy", "dancing", "cooking",
+                "hosting-dinner-parties", "yoga", "fashion-styling",
+                "trying-new-things", "beyonce", "taylor-swift",
+                "friends", "self-improvement", "barre",
+                "entrepreneurship", "the-white-lotus"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -86,7 +124,13 @@ enum MockUsers {
             latitude: 41.9434, longitude: -87.6553,
             city: "Chicago", neighborhood: "Lakeview", state: "IL",
             phoneNumber: "3125550108",
-            savedDatapoints: ["filmmaking-video", "vinyl-physical-media", "photography", "going-to-concerts", "seinfeld", "cormac-mccarthy"],
+            savedDatapoints: [
+                "filmmaking-video", "vinyl-physical-media", "photography",
+                "going-to-concerts", "seinfeld", "pulp-fiction",
+                "martin-scorsese", "christopher-nolan", "interstellar",
+                "the-weeknd", "arctic-monkeys", "indie",
+                "the-rewatchables", "stanley-kubrick"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -96,7 +140,12 @@ enum MockUsers {
             latitude: 41.9798, longitude: -87.6688,
             city: "Chicago", neighborhood: "Andersonville", state: "IL",
             phoneNumber: "3125550109",
-            savedDatapoints: ["drawing-illustration", "painting", "baking", "reading", "thrifting-antiquing", "graphic-design"],
+            savedDatapoints: [
+                "drawing-illustration", "painting", "baking", "reading",
+                "thrifting-antiquing", "graphic-design", "parasite",
+                "howls-moving-castle", "crafting-diy", "k-pop",
+                "sza", "photography", "organizing"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -106,7 +155,12 @@ enum MockUsers {
             latitude: 41.7943, longitude: -87.5907,
             city: "Chicago", neighborhood: "Hyde Park", state: "IL",
             phoneNumber: "3125550110",
-            savedDatapoints: ["chess-strategy-games", "reading", "research-learning", "volunteering", "running", "board-games", "writing"],
+            savedDatapoints: [
+                "chess-strategy-games", "reading", "research-learning",
+                "volunteering", "running", "board-games", "writing",
+                "history", "education", "1984", "the-daily",
+                "ethics", "puzzles-brain-games"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -116,7 +170,12 @@ enum MockUsers {
             latitude: 41.9234, longitude: -87.7083,
             city: "Chicago", neighborhood: "Logan Square", state: "IL",
             phoneNumber: "3125550111",
-            savedDatapoints: ["singing", "playing-an-instrument", "writing", "going-to-concerts", "björk", "poetry", "socializing-hanging-out"],
+            savedDatapoints: [
+                "singing", "playing-an-instrument", "writing",
+                "going-to-concerts", "bj-rk", "socializing-hanging-out",
+                "billie-eilish", "indie", "lana-del-rey",
+                "taylor-swift", "language-learning", "yoga"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -126,7 +185,12 @@ enum MockUsers {
             latitude: 41.9664, longitude: -87.6536,
             city: "Chicago", neighborhood: "Uptown", state: "IL",
             phoneNumber: "3125550112",
-            savedDatapoints: ["coding-projects", "soccer", "video-games", "cooking", "data-analysis", "tabletop-rpgs"],
+            savedDatapoints: [
+                "coding-projects", "soccer", "video-games", "cooking",
+                "data-analysis", "tabletop-rpgs", "premier-league",
+                "the-witcher-3-wild-hunt", "elden-ring", "minecraft",
+                "systems-theory", "basketball"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -136,7 +200,12 @@ enum MockUsers {
             latitude: 41.9387, longitude: -87.7111,
             city: "Chicago", neighborhood: "Avondale", state: "IL",
             phoneNumber: "3125550113",
-            savedDatapoints: ["running", "nature-walks", "gardening", "research-learning", "birding-wildlife", "camping", "photography"],
+            savedDatapoints: [
+                "running", "nature-walks", "gardening", "research-learning",
+                "birding-wildlife", "camping", "photography",
+                "environmental-justice", "hiking", "swimming",
+                "reading", "mindfulness", "the-daily"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -146,7 +215,12 @@ enum MockUsers {
             latitude: 41.8988, longitude: -87.6828,
             city: "Chicago", neighborhood: "Ukrainian Village", state: "IL",
             phoneNumber: "3125550114",
-            savedDatapoints: ["drawing-illustration", "photography", "home-projects", "cycling", "visual-design", "archiving-cataloging"],
+            savedDatapoints: [
+                "drawing-illustration", "photography", "home-projects",
+                "cycling", "visual-design", "archiving-cataloging",
+                "graphic-design", "urbanism", "reading",
+                "christopher-nolan", "interstellar", "crafting-diy"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -156,7 +230,12 @@ enum MockUsers {
             latitude: 41.9022, longitude: -87.7228,
             city: "Chicago", neighborhood: "Humboldt Park", state: "IL",
             phoneNumber: "3125550115",
-            savedDatapoints: ["running", "swimming", "walking", "yoga", "cooking", "socializing-hanging-out", "volunteering"],
+            savedDatapoints: [
+                "running", "swimming", "walking", "yoga", "cooking",
+                "socializing-hanging-out", "volunteering", "pilates",
+                "active-lifestyle", "self-improvement", "huberman-lab",
+                "mindfulness", "hiking"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -166,7 +245,12 @@ enum MockUsers {
             latitude: 41.9117, longitude: -87.6376,
             city: "Chicago", neighborhood: "Old Town", state: "IL",
             phoneNumber: "3125550116",
-            savedDatapoints: ["graphic-design", "fashion-styling", "visual-design", "photography", "video-games", "collecting-general"],
+            savedDatapoints: [
+                "graphic-design", "fashion-styling", "visual-design",
+                "photography", "video-games", "collecting-general",
+                "internet-culture", "k-pop", "travis-scott",
+                "kanye-west", "media-pop-culture", "minecraft"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -176,7 +260,14 @@ enum MockUsers {
             latitude: 41.8567, longitude: -87.6254,
             city: "Chicago", neighborhood: "South Loop", state: "IL",
             phoneNumber: "3125550117",
-            savedDatapoints: ["reading", "writing", "clubs-organizations", "research-learning", "hosting-dinner-parties", "literary-fiction", "puzzles-brain-games"],
+            savedDatapoints: [
+                "reading", "writing", "clubs-organizations",
+                "research-learning", "hosting-dinner-parties",
+                "puzzles-brain-games", "policy-governance",
+                "civic-engagement", "1984", "dune",
+                "the-great-gatsby", "jane-austen", "fiction",
+                "the-daily", "history"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -186,7 +277,12 @@ enum MockUsers {
             latitude: 41.8456, longitude: -87.7132,
             city: "Chicago", neighborhood: "Little Village", state: "IL",
             phoneNumber: "3125550118",
-            savedDatapoints: ["music-production", "vinyl-physical-media", "going-to-concerts", "dancing", "socializing-hanging-out", "card-games"],
+            savedDatapoints: [
+                "music-production", "vinyl-physical-media",
+                "going-to-concerts", "dancing", "socializing-hanging-out",
+                "card-games", "bad-bunny", "rauw-alejandro",
+                "edm", "electronic", "reggaeton", "rap"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -196,7 +292,12 @@ enum MockUsers {
             latitude: 41.9743, longitude: -87.6745,
             city: "Chicago", neighborhood: "Ravenswood", state: "IL",
             phoneNumber: "3125550119",
-            savedDatapoints: ["yoga", "baking", "gardening", "walking", "organizing", "cooking", "nature-walks"],
+            savedDatapoints: [
+                "yoga", "baking", "gardening", "walking", "organizing",
+                "cooking", "nature-walks", "pilates", "meditation",
+                "mindfulness", "self-improvement", "health",
+                "astrology", "barre"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -206,7 +307,13 @@ enum MockUsers {
             latitude: 41.9833, longitude: -87.6600,
             city: "Chicago", neighborhood: "Edgewater", state: "IL",
             phoneNumber: "3125550120",
-            savedDatapoints: ["writing", "socializing-hanging-out", "saturday-night-live", "the-tim-dillon-show", "board-games", "trying-new-things", "card-games"],
+            savedDatapoints: [
+                "writing", "socializing-hanging-out", "saturday-night-live",
+                "the-tim-dillon-show", "board-games", "trying-new-things",
+                "card-games", "seinfeld", "brooklyn-nine-nine",
+                "it-s-always-sunny-in-philadelphia", "conan-obrien-needs-a-friend",
+                "going-to-concerts"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -216,7 +323,12 @@ enum MockUsers {
             latitude: 41.9035, longitude: -87.6282,
             city: "Chicago", neighborhood: "Gold Coast", state: "IL",
             phoneNumber: "3125550121",
-            savedDatapoints: ["fashion-styling", "cooking", "hosting-dinner-parties", "photography", "the-white-lotus", "trying-new-things"],
+            savedDatapoints: [
+                "fashion-styling", "cooking", "hosting-dinner-parties",
+                "photography", "the-white-lotus", "trying-new-things",
+                "taylor-swift", "beyonce", "friends",
+                "mad-men", "yoga", "dancing"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -226,7 +338,12 @@ enum MockUsers {
             latitude: 41.8134, longitude: -87.6577,
             city: "Chicago", neighborhood: "Back of the Yards", state: "IL",
             phoneNumber: "3125550122",
-            savedDatapoints: ["crafting-diy", "home-projects", "repair-fixing-things", "cooking", "camping", "fishing"],
+            savedDatapoints: [
+                "crafting-diy", "home-projects", "repair-fixing-things",
+                "cooking", "camping", "fishing", "football",
+                "nfl", "baseball", "the-joe-rogan-experience",
+                "collecting-general", "active-lifestyle"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -236,7 +353,13 @@ enum MockUsers {
             latitude: 41.7410, longitude: -87.6126,
             city: "Chicago", neighborhood: "Chatham", state: "IL",
             phoneNumber: "3125550123",
-            savedDatapoints: ["volunteering", "gardening", "clubs-organizations", "reading", "walking", "baking", "socializing-hanging-out"],
+            savedDatapoints: [
+                "volunteering", "gardening", "clubs-organizations",
+                "reading", "walking", "baking",
+                "socializing-hanging-out", "social-justice",
+                "education", "activism", "human-rights",
+                "self-improvement", "meditation"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -246,7 +369,13 @@ enum MockUsers {
             latitude: 41.9537, longitude: -87.7364,
             city: "Chicago", neighborhood: "Irving Park", state: "IL",
             phoneNumber: "3125550124",
-            savedDatapoints: ["coding-projects", "data-analysis", "hockey", "video-games", "jogging", "puzzles-brain-games"],
+            savedDatapoints: [
+                "coding-projects", "data-analysis", "ice-hockey",
+                "video-games", "jogging", "puzzles-brain-games",
+                "nhl", "elden-ring", "minecraft",
+                "the-witcher-3-wild-hunt", "systems-theory",
+                "cyberpunk-2077"
+            ],
             hasCompletedOnboarding: true
         ),
         LocalUser(
@@ -256,7 +385,13 @@ enum MockUsers {
             latitude: 41.9207, longitude: -87.6804,
             city: "Chicago", neighborhood: "Bucktown", state: "IL",
             phoneNumber: "3125550125",
-            savedDatapoints: ["painting", "drawing-illustration", "dancing", "going-to-concerts", "thrifting-antiquing", "photography", "crafting-diy"],
+            savedDatapoints: [
+                "painting", "drawing-illustration", "dancing",
+                "going-to-concerts", "thrifting-antiquing", "photography",
+                "crafting-diy", "bj-rk", "fka-twigs",
+                "indie", "creative-arts", "skateboarding",
+                "media-pop-culture"
+            ],
             hasCompletedOnboarding: true
         )
     ]

@@ -11,6 +11,7 @@ import MapKit
 struct UsersMapView: View {
     @EnvironmentObject var authManager: AuthManager
     @StateObject private var similarityService = SimilarityService()
+    @State private var selectedResult: SimilarityService.UserSimilarityResult?
 
     var body: some View {
         NavigationStack {
@@ -27,18 +28,23 @@ struct UsersMapView: View {
                     if let lat = result.user.latitude, let lon = result.user.longitude {
                         Annotation(result.user.displayName,
                                    coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon)) {
-                            VStack(spacing: 2) {
-                                Text("\(result.percentageSimilarity)%")
-                                    .font(.caption2.bold()).foregroundStyle(.white)
-                                    .padding(.horizontal, 6).padding(.vertical, 2)
-                                    .background(Color.green).clipShape(Capsule())
+                            Button {
+                                print("[Map] Annotation tapped: \(result.user.displayName) (\(result.percentageSimilarity)% match) at lat=\(lat), lon=\(lon)")
+                                selectedResult = result
+                            } label: {
+                                VStack(spacing: 2) {
+                                    Text("\(result.percentageSimilarity)%")
+                                        .font(.caption2.bold()).foregroundStyle(.white)
+                                        .padding(.horizontal, 6).padding(.vertical, 2)
+                                        .background(Color.green).clipShape(Capsule())
 
-                                Circle().fill(Color.pink.opacity(0.18))
-                                    .frame(width: 36, height: 36)
-                                    .overlay(
-                                        Text(String(result.user.firstName.prefix(1)).uppercased())
-                                            .font(.subheadline.bold()).foregroundStyle(.pink)
-                                    )
+                                    Circle().fill(Color.pink.opacity(0.18))
+                                        .frame(width: 36, height: 36)
+                                        .overlay(
+                                            Text(String(result.user.firstName.prefix(1)).uppercased())
+                                                .font(.subheadline.bold()).foregroundStyle(.pink)
+                                        )
+                                }
                             }
                         }
                     }
@@ -47,9 +53,14 @@ struct UsersMapView: View {
             .mapStyle(.standard)
             .navigationTitle("Map")
             .navigationBarTitleDisplayMode(.inline)
+            .sheet(item: $selectedResult) { result in
+                UserDetailSheet(result: result)
+            }
         }
         .onAppear {
+            print("[Map] UsersMapView appeared")
             if let user = authManager.currentUser, similarityService.results.isEmpty {
+                print("[Map] Computing similarities for map: user=\(user.username), lat=\(user.latitude ?? 0), lon=\(user.longitude ?? 0)")
                 similarityService.computeSimilarities(currentUser: user, otherUsers: MockUsers.all)
             }
         }
