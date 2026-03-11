@@ -21,8 +21,10 @@ class UserProfileManager: ObservableObject {
         load()
     }
     
+    static let pathSeparator = "::"
+    
     var savedDatapointLabels: [String] {
-        savedDatapoints.compactMap { $0.components(separatedBy: "/").last }
+        savedDatapoints.compactMap { $0.components(separatedBy: Self.pathSeparator).last }
     }
     
     var savedDatapointsCount: Int {
@@ -55,7 +57,7 @@ class UserProfileManager: ObservableObject {
         var categories: [String: [SavedDatapoint]] = [:]
         
         for path in savedDatapoints {
-            let components = path.components(separatedBy: "/")
+            let components = path.components(separatedBy: Self.pathSeparator)
             guard components.count >= 3, let label = components.last else { continue }
             
             let category = components[0]
@@ -107,6 +109,15 @@ class UserProfileManager: ObservableObject {
         let datapointsArray = Array(savedDatapoints)
         UserDefaults.standard.set(datapointsArray, forKey: savedDatapointsKey)
         print("[Profile] Persisted \(datapointsArray.count) datapoints to UserDefaults key '\(savedDatapointsKey)'")
+        syncToCloudKit()
+    }
+
+    private func syncToCloudKit() {
+        let labels = savedDatapointLabels
+        let uid = userId
+        Task {
+            await CloudKitManager.shared.syncDatapoints(userId: uid, datapointLabels: labels)
+        }
     }
     
     func datapointPath(category: String?, subcategory: String?, subSubcategory: String?, label: String) -> String {
@@ -115,6 +126,6 @@ class UserProfileManager: ObservableObject {
         if let sub = subcategory { components.append(sub) }
         if let subSub = subSubcategory { components.append(subSub) }
         components.append(label)
-        return components.joined(separator: "/")
+        return components.joined(separator: Self.pathSeparator)
     }
 }

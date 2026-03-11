@@ -65,15 +65,13 @@ struct UsersTabView: View {
 
 struct UserCard: View {
     let result: SimilarityService.UserSimilarityResult
+    @State private var showCreateHangout = false
 
-    private static let datasetItems: [DataItem] = DatasetLoader.loadDataset().items
     private let maxChips = 3
 
-    // Resolve common datapoint IDs to display labels
+    // datapointsInCommon are labels (e.g. "Yoga"), display them directly
     private var commonDisplayLabels: [String] {
-        result.datapointsInCommon.sorted().compactMap { dpId in
-            Self.datasetItems.first(where: { $0.id == dpId })?.label ?? dpId
-        }
+        result.datapointsInCommon.sorted()
     }
 
     private var displayedLabels: [String] {
@@ -132,21 +130,15 @@ struct UserCard: View {
                 }
             }
 
-            // Suggest Hangout button
+            // Create Hangout button
             Button {
-                print("[UsersTab] 'Suggest Hangout' tapped for \(result.user.displayName)")
-                if let phone = result.user.phoneNumber,
-                   let url = URL(string: "sms:\(phone)") {
-                    print("[UsersTab] Opening SMS URL: \(url)")
-                    UIApplication.shared.open(url)
-                } else {
-                    print("[UsersTab] No phone number for \(result.user.displayName)")
-                }
+                print("[UsersTab] 'Create Hangout' tapped for \(result.user.displayName)")
+                showCreateHangout = true
             } label: {
                 HStack(spacing: 6) {
                     Image(systemName: "sparkles")
                         .font(.subheadline.bold())
-                    Text("Suggest Hangout")
+                    Text("Create Hangout")
                         .font(.subheadline.bold())
                 }
                 .foregroundStyle(.white)
@@ -154,6 +146,12 @@ struct UserCard: View {
                 .padding(.vertical, 11)
                 .background(Color("SavedGreen"))
                 .clipShape(Capsule())
+            }
+            .sheet(isPresented: $showCreateHangout) {
+                CreateHangoutSheet(
+                    userName: result.user.displayName,
+                    phoneNumber: result.user.phoneNumber
+                )
             }
         }
         .padding(18)
@@ -167,13 +165,15 @@ struct UserCard: View {
 struct UserDetailSheet: View {
     let result: SimilarityService.UserSimilarityResult
     @Environment(\.dismiss) private var dismiss
+    @State private var showCreateHangout = false
 
     private static let datasetItems: [DataItem] = DatasetLoader.loadDataset().items
 
-    // Map each saved datapoint ID to its DataItem
+    // Map each saved datapoint path to its DataItem by extracting the label
     private var resolvedDatapoints: [DataItem] {
-        result.user.savedDatapoints.compactMap { dpId in
-            Self.datasetItems.first { $0.id == dpId }
+        result.user.savedDatapoints.compactMap { path in
+            let label = path.components(separatedBy: UserProfileManager.pathSeparator).last ?? path
+            return Self.datasetItems.first { $0.label == label }
         }
     }
 
@@ -220,26 +220,26 @@ struct UserDetailSheet: View {
                                 Capsule().stroke(Color("SavedGreen"), lineWidth: 1)
                             )
 
-                        // Suggest Hangout button
+                        // Create Hangout button
                         Button {
-                            print("[UserDetail] 'Suggest Hangout' tapped for \(result.user.displayName)")
-                            if let phone = result.user.phoneNumber,
-                               let url = URL(string: "sms:\(phone)") {
-                                print("[UserDetail] Opening SMS URL: \(url)")
-                                UIApplication.shared.open(url)
-                            } else {
-                                print("[UserDetail] No phone number for \(result.user.displayName)")
-                            }
+                            print("[UserDetail] 'Create Hangout' tapped for \(result.user.displayName)")
+                            showCreateHangout = true
                         } label: {
                             HStack(spacing: 6) {
                                 Image(systemName: "sparkles")
-                                Text("Suggest Hangout")
+                                Text("Create Hangout")
                                     .fontWeight(.semibold)
                             }
                             .foregroundStyle(Color("SavedGreen"))
                             .padding(.horizontal, 24).padding(.vertical, 10)
                             .background(
                                 Capsule().stroke(Color("SavedGreen"), lineWidth: 1.5)
+                            )
+                        }
+                        .sheet(isPresented: $showCreateHangout) {
+                            CreateHangoutSheet(
+                                userName: result.user.displayName,
+                                phoneNumber: result.user.phoneNumber
                             )
                         }
                     }

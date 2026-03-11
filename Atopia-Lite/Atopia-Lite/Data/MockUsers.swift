@@ -17,10 +17,14 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Wicker Park", state: "IL",
             phoneNumber: "3125550101",
             savedDatapoints: [
-                "yoga", "photography", "cooking", "graphic-design", "reading",
-                "the-white-lotus", "cycling", "pilates", "taylor-swift",
-                "gardening", "trying-new-things", "mindfulness", "baking",
-                "fashion-styling", "stranger-things"
+                "Fitness::flexibility::Yoga", "Hobbies::creative_making::Photography",
+                "Hobbies::practical_home_based::Cooking", "Hobbies::creative_making::Graphic Design",
+                "Hobbies::intellectual_learning::Reading", "Media::tv_film::tv::The White Lotus",
+                "Fitness::endurance::Cycling", "Fitness::flexibility::Pilates",
+                "Media::music::artist::Taylor Swift", "Hobbies::outdoor_nature::Gardening",
+                "Hobbies::general_casual::Trying New Things", "Ideas::philosophy_values::Mindfulness",
+                "Hobbies::practical_home_based::Baking", "Hobbies::collecting_curation::Fashion / Styling",
+                "Media::tv_film::tv::Stranger Things"
             ],
             hasCompletedOnboarding: true
         ),
@@ -32,10 +36,13 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Bronzeville", state: "IL",
             phoneNumber: "3125550102",
             savedDatapoints: [
-                "music-production", "playing-an-instrument", "video-games",
-                "cooking", "going-to-concerts", "basketball", "drake",
-                "nba", "grand-theft-auto-v", "kendrick-lamar", "rap",
-                "the-joe-rogan-experience", "soccer"
+                "Hobbies::creative_making::Music Production", "Hobbies::creative_making::Playing an Instrument",
+                "Hobbies::games_play::Video Games", "Hobbies::practical_home_based::Cooking",
+                "Hobbies::social_community::Going to Concerts", "Fitness::sports_team::Basketball",
+                "Media::music::artist::Drake", "Media::sports::NBA",
+                "Media::games::Grand Theft Auto V", "Media::music::artist::Kendrick Lamar",
+                "Media::music::Rap", "Media::podcasts::The Joe Rogan Experience",
+                "Fitness::sports_team::Soccer"
             ],
             hasCompletedOnboarding: true
         ),
@@ -47,11 +54,13 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Chinatown", state: "IL",
             phoneNumber: "3125550103",
             savedDatapoints: [
-                "data-analysis", "board-games", "coding-projects", "reading",
-                "chess-strategy-games", "research-learning", "baking",
-                "puzzles-brain-games", "rationalism", "dune",
-                "interstellar", "stranger-things", "hiking",
-                "systems-theory"
+                "Skills::general::Data Analysis", "Hobbies::games_play::Board Games",
+                "Hobbies::creative_making::Coding Projects", "Hobbies::intellectual_learning::Reading",
+                "Hobbies::games_play::Chess / Strategy Games", "Hobbies::intellectual_learning::Research / Learning",
+                "Hobbies::practical_home_based::Baking", "Hobbies::intellectual_learning::Puzzles / Brain Games",
+                "Ideas::philosophy_values::Rationalism", "Media::literature::book::Dune",
+                "Media::tv_film::movie::Interstellar", "Media::tv_film::tv::Stranger Things",
+                "Fitness::endurance::Hiking", "Ideas::philosophy_values::Systems Theory"
             ],
             hasCompletedOnboarding: true
         ),
@@ -63,10 +72,13 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Pilsen", state: "IL",
             phoneNumber: "3125550104",
             savedDatapoints: [
-                "cooking", "cycling", "soccer", "running", "gardening",
-                "trying-new-things", "bad-bunny", "premier-league",
-                "hosting-dinner-parties", "baking", "hiking",
-                "socializing-hanging-out", "active-lifestyle"
+                "Hobbies::practical_home_based::Cooking", "Fitness::endurance::Cycling",
+                "Fitness::sports_team::Soccer", "Fitness::endurance::Running",
+                "Hobbies::outdoor_nature::Gardening", "Hobbies::general_casual::Trying New Things",
+                "Media::music::artist::Bad Bunny", "Media::sports::Premier League",
+                "Hobbies::social_community::Hosting / Dinner Parties", "Hobbies::practical_home_based::Baking",
+                "Fitness::endurance::Hiking", "Hobbies::social_community::Socializing / Hanging Out",
+                "Fitness::general::Active Lifestyle"
             ],
             hasCompletedOnboarding: true
         ),
@@ -78,11 +90,14 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Rogers Park", state: "IL",
             phoneNumber: "3125550105",
             savedDatapoints: [
-                "writing", "volunteering", "reading", "nature-walks",
-                "language-learning", "clubs-organizations", "social-justice",
-                "activism", "meditation", "human-rights", "1984",
-                "the-great-gatsby", "history", "ethics",
-                "the-daily", "education"
+                "Hobbies::creative_making::Writing", "Hobbies::social_community::Volunteering",
+                "Hobbies::intellectual_learning::Reading", "Hobbies::outdoor_nature::Nature Walks",
+                "Hobbies::intellectual_learning::Language Learning", "Hobbies::social_community::Clubs / Organizations",
+                "Ideas::society_culture::Social Justice", "Ideas::politics::Activism",
+                "Ideas::religion_spirituality::Meditation", "Ideas::politics::Human Rights",
+                "Media::literature::book::1984", "Media::literature::book::The Great Gatsby",
+                "Ideas::society_culture::History", "Ideas::philosophy_values::Ethics",
+                "Media::podcasts::The Daily", "Ideas::society_culture::Education"
             ],
             hasCompletedOnboarding: true
         ),
@@ -94,10 +109,13 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Bridgeport", state: "IL",
             phoneNumber: "3125550106",
             savedDatapoints: [
-                "home-projects", "repair-fixing-things", "hiking",
-                "camping", "fishing", "crafting-diy", "football",
-                "nfl", "ice-hockey", "organizing", "running",
-                "active-lifestyle", "the-joe-rogan-experience"
+                "Hobbies::practical_home_based::Home Projects", "Hobbies::practical_home_based::Repair / Fixing Things",
+                "Fitness::endurance::Hiking", "Hobbies::outdoor_nature::Camping",
+                "Hobbies::outdoor_nature::Fishing", "Hobbies::creative_making::Crafting / DIY",
+                "Fitness::sports_team::Football", "Media::sports::NFL",
+                "Fitness::sports_team::Ice Hockey", "Hobbies::practical_home_based::Organizing",
+                "Fitness::endurance::Running", "Fitness::general::Active Lifestyle",
+                "Media::podcasts::The Joe Rogan Experience"
             ],
             hasCompletedOnboarding: true
         ),
@@ -109,11 +127,13 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Lincoln Park", state: "IL",
             phoneNumber: "3125550107",
             savedDatapoints: [
-                "product-strategy", "dancing", "cooking",
-                "hosting-dinner-parties", "yoga", "fashion-styling",
-                "trying-new-things", "beyonce", "taylor-swift",
-                "friends", "self-improvement", "barre",
-                "entrepreneurship", "the-white-lotus"
+                "Skills::general::Product Strategy", "Fitness::endurance::Dancing",
+                "Hobbies::practical_home_based::Cooking", "Hobbies::social_community::Hosting / Dinner Parties",
+                "Fitness::flexibility::Yoga", "Hobbies::collecting_curation::Fashion / Styling",
+                "Hobbies::general_casual::Trying New Things", "Media::music::artist::Beyoncé",
+                "Media::music::artist::Taylor Swift", "Media::tv_film::tv::Friends",
+                "Ideas::philosophy_values::Self-improvement", "Fitness::flexibility::Barre",
+                "Ideas::society_culture::Entrepreneurship", "Media::tv_film::tv::The White Lotus"
             ],
             hasCompletedOnboarding: true
         ),
@@ -125,11 +145,13 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Lakeview", state: "IL",
             phoneNumber: "3125550108",
             savedDatapoints: [
-                "filmmaking-video", "vinyl-physical-media", "photography",
-                "going-to-concerts", "seinfeld", "pulp-fiction",
-                "martin-scorsese", "christopher-nolan", "interstellar",
-                "the-weeknd", "arctic-monkeys", "indie",
-                "the-rewatchables", "stanley-kubrick"
+                "Hobbies::creative_making::Filmmaking / Video", "Hobbies::collecting_curation::Vinyl / Physical Media",
+                "Hobbies::creative_making::Photography", "Hobbies::social_community::Going to Concerts",
+                "Media::tv_film::tv::Seinfeld", "Media::tv_film::movie::Pulp Fiction",
+                "Media::tv_film::Martin Scorsese", "Media::tv_film::Christopher Nolan",
+                "Media::tv_film::movie::Interstellar", "Media::music::artist::The Weeknd",
+                "Media::music::artist::Arctic Monkeys", "Media::games::Indie",
+                "Media::podcasts::The Rewatchables", "Media::tv_film::Stanley Kubrick"
             ],
             hasCompletedOnboarding: true
         ),
@@ -141,10 +163,13 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Andersonville", state: "IL",
             phoneNumber: "3125550109",
             savedDatapoints: [
-                "drawing-illustration", "painting", "baking", "reading",
-                "thrifting-antiquing", "graphic-design", "parasite",
-                "howls-moving-castle", "crafting-diy", "k-pop",
-                "sza", "photography", "organizing"
+                "Hobbies::creative_making::Drawing / Illustration", "Hobbies::creative_making::Painting",
+                "Hobbies::practical_home_based::Baking", "Hobbies::intellectual_learning::Reading",
+                "Hobbies::collecting_curation::Thrifting / Antiquing", "Hobbies::creative_making::Graphic Design",
+                "Media::tv_film::movie::Parasite", "Media::tv_film::movie::Howl's Moving Castle",
+                "Hobbies::creative_making::Crafting / DIY", "Media::music::K-Pop",
+                "Media::music::artist::SZA", "Hobbies::creative_making::Photography",
+                "Hobbies::practical_home_based::Organizing"
             ],
             hasCompletedOnboarding: true
         ),
@@ -156,10 +181,13 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Hyde Park", state: "IL",
             phoneNumber: "3125550110",
             savedDatapoints: [
-                "chess-strategy-games", "reading", "research-learning",
-                "volunteering", "running", "board-games", "writing",
-                "history", "education", "1984", "the-daily",
-                "ethics", "puzzles-brain-games"
+                "Hobbies::games_play::Chess / Strategy Games", "Hobbies::intellectual_learning::Reading",
+                "Hobbies::intellectual_learning::Research / Learning", "Hobbies::social_community::Volunteering",
+                "Fitness::endurance::Running", "Hobbies::games_play::Board Games",
+                "Hobbies::creative_making::Writing", "Ideas::society_culture::History",
+                "Ideas::society_culture::Education", "Media::literature::book::1984",
+                "Media::podcasts::The Daily", "Ideas::philosophy_values::Ethics",
+                "Hobbies::intellectual_learning::Puzzles / Brain Games"
             ],
             hasCompletedOnboarding: true
         ),
@@ -171,10 +199,12 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Logan Square", state: "IL",
             phoneNumber: "3125550111",
             savedDatapoints: [
-                "singing", "playing-an-instrument", "writing",
-                "going-to-concerts", "bj-rk", "socializing-hanging-out",
-                "billie-eilish", "indie", "lana-del-rey",
-                "taylor-swift", "language-learning", "yoga"
+                "Hobbies::creative_making::Singing", "Hobbies::creative_making::Playing an Instrument",
+                "Hobbies::creative_making::Writing", "Hobbies::social_community::Going to Concerts",
+                "Media::music::artist::Björk", "Hobbies::social_community::Socializing / Hanging Out",
+                "Media::music::artist::Billie Eilish", "Media::games::Indie",
+                "Media::music::artist::Lana Del Rey", "Media::music::artist::Taylor Swift",
+                "Hobbies::intellectual_learning::Language Learning", "Fitness::flexibility::Yoga"
             ],
             hasCompletedOnboarding: true
         ),
@@ -186,10 +216,12 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Uptown", state: "IL",
             phoneNumber: "3125550112",
             savedDatapoints: [
-                "coding-projects", "soccer", "video-games", "cooking",
-                "data-analysis", "tabletop-rpgs", "premier-league",
-                "the-witcher-3-wild-hunt", "elden-ring", "minecraft",
-                "systems-theory", "basketball"
+                "Hobbies::creative_making::Coding Projects", "Fitness::sports_team::Soccer",
+                "Hobbies::games_play::Video Games", "Hobbies::practical_home_based::Cooking",
+                "Skills::general::Data Analysis", "Hobbies::games_play::Tabletop RPGs",
+                "Media::sports::Premier League", "Media::games::The Witcher 3: Wild Hunt",
+                "Media::games::Elden Ring", "Media::games::Minecraft",
+                "Ideas::philosophy_values::Systems Theory", "Fitness::sports_team::Basketball"
             ],
             hasCompletedOnboarding: true
         ),
@@ -201,10 +233,13 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Avondale", state: "IL",
             phoneNumber: "3125550113",
             savedDatapoints: [
-                "running", "nature-walks", "gardening", "research-learning",
-                "birding-wildlife", "camping", "photography",
-                "environmental-justice", "hiking", "swimming",
-                "reading", "mindfulness", "the-daily"
+                "Fitness::endurance::Running", "Hobbies::outdoor_nature::Nature Walks",
+                "Hobbies::outdoor_nature::Gardening", "Hobbies::intellectual_learning::Research / Learning",
+                "Hobbies::outdoor_nature::Birding / Wildlife", "Hobbies::outdoor_nature::Camping",
+                "Hobbies::creative_making::Photography", "Ideas::politics::Environmental Justice",
+                "Fitness::endurance::Hiking", "Fitness::endurance::Swimming",
+                "Hobbies::intellectual_learning::Reading", "Ideas::philosophy_values::Mindfulness",
+                "Media::podcasts::The Daily"
             ],
             hasCompletedOnboarding: true
         ),
@@ -216,10 +251,12 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Ukrainian Village", state: "IL",
             phoneNumber: "3125550114",
             savedDatapoints: [
-                "drawing-illustration", "photography", "home-projects",
-                "cycling", "visual-design", "archiving-cataloging",
-                "graphic-design", "urbanism", "reading",
-                "christopher-nolan", "interstellar", "crafting-diy"
+                "Hobbies::creative_making::Drawing / Illustration", "Hobbies::creative_making::Photography",
+                "Hobbies::practical_home_based::Home Projects", "Fitness::endurance::Cycling",
+                "Skills::general::Visual Design", "Hobbies::collecting_curation::Archiving / Cataloging",
+                "Hobbies::creative_making::Graphic Design", "Ideas::society_culture::Urbanism",
+                "Hobbies::intellectual_learning::Reading", "Media::tv_film::Christopher Nolan",
+                "Media::tv_film::movie::Interstellar", "Hobbies::creative_making::Crafting / DIY"
             ],
             hasCompletedOnboarding: true
         ),
@@ -231,10 +268,13 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Humboldt Park", state: "IL",
             phoneNumber: "3125550115",
             savedDatapoints: [
-                "running", "swimming", "walking", "yoga", "cooking",
-                "socializing-hanging-out", "volunteering", "pilates",
-                "active-lifestyle", "self-improvement", "huberman-lab",
-                "mindfulness", "hiking"
+                "Fitness::endurance::Running", "Fitness::endurance::Swimming",
+                "Fitness::endurance::Walking", "Fitness::flexibility::Yoga",
+                "Hobbies::practical_home_based::Cooking", "Hobbies::social_community::Socializing / Hanging Out",
+                "Hobbies::social_community::Volunteering", "Fitness::flexibility::Pilates",
+                "Fitness::general::Active Lifestyle", "Ideas::philosophy_values::Self-improvement",
+                "Media::podcasts::Huberman Lab", "Ideas::philosophy_values::Mindfulness",
+                "Fitness::endurance::Hiking"
             ],
             hasCompletedOnboarding: true
         ),
@@ -246,10 +286,12 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Old Town", state: "IL",
             phoneNumber: "3125550116",
             savedDatapoints: [
-                "graphic-design", "fashion-styling", "visual-design",
-                "photography", "video-games", "collecting-general",
-                "internet-culture", "k-pop", "travis-scott",
-                "kanye-west", "media-pop-culture", "minecraft"
+                "Hobbies::creative_making::Graphic Design", "Hobbies::collecting_curation::Fashion / Styling",
+                "Skills::general::Visual Design", "Hobbies::creative_making::Photography",
+                "Hobbies::games_play::Video Games", "Hobbies::collecting_curation::Collecting (General)",
+                "Ideas::society_culture::Internet Culture", "Media::music::K-Pop",
+                "Media::music::artist::Travis Scott", "Media::music::artist::Kanye West",
+                "Ideas::society_culture::Media & Pop Culture", "Media::games::Minecraft"
             ],
             hasCompletedOnboarding: true
         ),
@@ -261,12 +303,14 @@ enum MockUsers {
             city: "Chicago", neighborhood: "South Loop", state: "IL",
             phoneNumber: "3125550117",
             savedDatapoints: [
-                "reading", "writing", "clubs-organizations",
-                "research-learning", "hosting-dinner-parties",
-                "puzzles-brain-games", "policy-governance",
-                "civic-engagement", "1984", "dune",
-                "the-great-gatsby", "jane-austen", "fiction",
-                "the-daily", "history"
+                "Hobbies::intellectual_learning::Reading", "Hobbies::creative_making::Writing",
+                "Hobbies::social_community::Clubs / Organizations", "Hobbies::intellectual_learning::Research / Learning",
+                "Hobbies::social_community::Hosting / Dinner Parties", "Hobbies::intellectual_learning::Puzzles / Brain Games",
+                "Ideas::politics::Policy & Governance", "Ideas::politics::Civic Engagement",
+                "Media::literature::book::1984", "Media::literature::book::Dune",
+                "Media::literature::book::The Great Gatsby", "Media::literature::author::Jane Austen",
+                "Media::literature::Fiction", "Media::podcasts::The Daily",
+                "Ideas::society_culture::History"
             ],
             hasCompletedOnboarding: true
         ),
@@ -278,10 +322,12 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Little Village", state: "IL",
             phoneNumber: "3125550118",
             savedDatapoints: [
-                "music-production", "vinyl-physical-media",
-                "going-to-concerts", "dancing", "socializing-hanging-out",
-                "card-games", "bad-bunny", "rauw-alejandro",
-                "edm", "electronic", "reggaeton", "rap"
+                "Hobbies::creative_making::Music Production", "Hobbies::collecting_curation::Vinyl / Physical Media",
+                "Hobbies::social_community::Going to Concerts", "Fitness::endurance::Dancing",
+                "Hobbies::social_community::Socializing / Hanging Out", "Hobbies::games_play::Card Games",
+                "Media::music::artist::Bad Bunny", "Media::music::artist::Rauw Alejandro",
+                "Media::music::EDM", "Media::music::Electronic",
+                "Media::music::Reggaeton", "Media::music::Rap"
             ],
             hasCompletedOnboarding: true
         ),
@@ -293,10 +339,13 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Ravenswood", state: "IL",
             phoneNumber: "3125550119",
             savedDatapoints: [
-                "yoga", "baking", "gardening", "walking", "organizing",
-                "cooking", "nature-walks", "pilates", "meditation",
-                "mindfulness", "self-improvement", "health",
-                "astrology", "barre"
+                "Fitness::flexibility::Yoga", "Hobbies::practical_home_based::Baking",
+                "Hobbies::outdoor_nature::Gardening", "Fitness::endurance::Walking",
+                "Hobbies::practical_home_based::Organizing", "Hobbies::practical_home_based::Cooking",
+                "Hobbies::outdoor_nature::Nature Walks", "Fitness::flexibility::Pilates",
+                "Ideas::religion_spirituality::Meditation", "Ideas::philosophy_values::Mindfulness",
+                "Ideas::philosophy_values::Self-improvement", "Ideas::society_culture::Health",
+                "Ideas::religion_spirituality::Astrology", "Fitness::flexibility::Barre"
             ],
             hasCompletedOnboarding: true
         ),
@@ -308,11 +357,12 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Edgewater", state: "IL",
             phoneNumber: "3125550120",
             savedDatapoints: [
-                "writing", "socializing-hanging-out", "saturday-night-live",
-                "the-tim-dillon-show", "board-games", "trying-new-things",
-                "card-games", "seinfeld", "brooklyn-nine-nine",
-                "it-s-always-sunny-in-philadelphia", "conan-obrien-needs-a-friend",
-                "going-to-concerts"
+                "Hobbies::creative_making::Writing", "Hobbies::social_community::Socializing / Hanging Out",
+                "Media::tv_film::tv::Saturday Night Live", "Media::podcasts::The Tim Dillon Show",
+                "Hobbies::games_play::Board Games", "Hobbies::general_casual::Trying New Things",
+                "Hobbies::games_play::Card Games", "Media::tv_film::tv::Seinfeld",
+                "Media::tv_film::tv::Brooklyn Nine-Nine", "Media::tv_film::tv::It's Always Sunny in Philadelphia",
+                "Media::podcasts::Conan O\u{2019}Brien Needs A Friend", "Hobbies::social_community::Going to Concerts"
             ],
             hasCompletedOnboarding: true
         ),
@@ -324,10 +374,12 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Gold Coast", state: "IL",
             phoneNumber: "3125550121",
             savedDatapoints: [
-                "fashion-styling", "cooking", "hosting-dinner-parties",
-                "photography", "the-white-lotus", "trying-new-things",
-                "taylor-swift", "beyonce", "friends",
-                "mad-men", "yoga", "dancing"
+                "Hobbies::collecting_curation::Fashion / Styling", "Hobbies::practical_home_based::Cooking",
+                "Hobbies::social_community::Hosting / Dinner Parties", "Hobbies::creative_making::Photography",
+                "Media::tv_film::tv::The White Lotus", "Hobbies::general_casual::Trying New Things",
+                "Media::music::artist::Taylor Swift", "Media::music::artist::Beyoncé",
+                "Media::tv_film::tv::Friends", "Media::tv_film::tv::Mad Men",
+                "Fitness::flexibility::Yoga", "Fitness::endurance::Dancing"
             ],
             hasCompletedOnboarding: true
         ),
@@ -339,10 +391,12 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Back of the Yards", state: "IL",
             phoneNumber: "3125550122",
             savedDatapoints: [
-                "crafting-diy", "home-projects", "repair-fixing-things",
-                "cooking", "camping", "fishing", "football",
-                "nfl", "baseball", "the-joe-rogan-experience",
-                "collecting-general", "active-lifestyle"
+                "Hobbies::creative_making::Crafting / DIY", "Hobbies::practical_home_based::Home Projects",
+                "Hobbies::practical_home_based::Repair / Fixing Things", "Hobbies::practical_home_based::Cooking",
+                "Hobbies::outdoor_nature::Camping", "Hobbies::outdoor_nature::Fishing",
+                "Fitness::sports_team::Football", "Media::sports::NFL",
+                "Fitness::sports_team::Baseball", "Media::podcasts::The Joe Rogan Experience",
+                "Hobbies::collecting_curation::Collecting (General)", "Fitness::general::Active Lifestyle"
             ],
             hasCompletedOnboarding: true
         ),
@@ -354,11 +408,13 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Chatham", state: "IL",
             phoneNumber: "3125550123",
             savedDatapoints: [
-                "volunteering", "gardening", "clubs-organizations",
-                "reading", "walking", "baking",
-                "socializing-hanging-out", "social-justice",
-                "education", "activism", "human-rights",
-                "self-improvement", "meditation"
+                "Hobbies::social_community::Volunteering", "Hobbies::outdoor_nature::Gardening",
+                "Hobbies::social_community::Clubs / Organizations", "Hobbies::intellectual_learning::Reading",
+                "Fitness::endurance::Walking", "Hobbies::practical_home_based::Baking",
+                "Hobbies::social_community::Socializing / Hanging Out", "Ideas::society_culture::Social Justice",
+                "Ideas::society_culture::Education", "Ideas::politics::Activism",
+                "Ideas::politics::Human Rights", "Ideas::philosophy_values::Self-improvement",
+                "Ideas::religion_spirituality::Meditation"
             ],
             hasCompletedOnboarding: true
         ),
@@ -370,11 +426,12 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Irving Park", state: "IL",
             phoneNumber: "3125550124",
             savedDatapoints: [
-                "coding-projects", "data-analysis", "ice-hockey",
-                "video-games", "jogging", "puzzles-brain-games",
-                "nhl", "elden-ring", "minecraft",
-                "the-witcher-3-wild-hunt", "systems-theory",
-                "cyberpunk-2077"
+                "Hobbies::creative_making::Coding Projects", "Skills::general::Data Analysis",
+                "Fitness::sports_team::Ice Hockey", "Hobbies::games_play::Video Games",
+                "Fitness::endurance::Jogging", "Hobbies::intellectual_learning::Puzzles / Brain Games",
+                "Media::sports::NHL", "Media::games::Elden Ring",
+                "Media::games::Minecraft", "Media::games::The Witcher 3: Wild Hunt",
+                "Ideas::philosophy_values::Systems Theory", "Media::games::Cyberpunk 2077"
             ],
             hasCompletedOnboarding: true
         ),
@@ -386,11 +443,13 @@ enum MockUsers {
             city: "Chicago", neighborhood: "Bucktown", state: "IL",
             phoneNumber: "3125550125",
             savedDatapoints: [
-                "painting", "drawing-illustration", "dancing",
-                "going-to-concerts", "thrifting-antiquing", "photography",
-                "crafting-diy", "bj-rk", "fka-twigs",
-                "indie", "creative-arts", "skateboarding",
-                "media-pop-culture"
+                "Hobbies::creative_making::Painting", "Hobbies::creative_making::Drawing / Illustration",
+                "Fitness::endurance::Dancing", "Hobbies::social_community::Going to Concerts",
+                "Hobbies::collecting_curation::Thrifting / Antiquing", "Hobbies::creative_making::Photography",
+                "Hobbies::creative_making::Crafting / DIY", "Media::music::artist::Björk",
+                "Media::music::artist::FKA twigs", "Media::games::Indie",
+                "Ideas::society_culture::Creative Arts", "Fitness::sports_individual::Skateboarding",
+                "Ideas::society_culture::Media & Pop Culture"
             ],
             hasCompletedOnboarding: true
         )

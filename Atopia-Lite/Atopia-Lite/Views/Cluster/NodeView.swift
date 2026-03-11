@@ -52,10 +52,10 @@ struct NodeView: View {
             // Recommendation aura
             if node.isRecommended && !node.isSavedToProfile {
                 Capsule()
-                    .fill(Color("RecPurple1").opacity(0.4))
+                    .fill(Color("RecPurple1").opacity(0.9))
                     .frame(width: max(sizeForNode, node.textWidth + 20) + 24, height: sizeForNode + 24)
                     .blur(radius: 10)
-                    .shadow(color: Color("RecPurple1").opacity(0.5), radius: 12, x: 0, y: 0)
+                    .shadow(color: Color("RecPurple1").opacity(0.8), radius: 12, x: 0, y: 0)
             }
             
             // Expanded ring
@@ -76,7 +76,7 @@ struct NodeView: View {
             // Glow
             if node.isRecommended && !node.isSavedToProfile {
                 Capsule()
-                    .fill(Color("RecPurple1").opacity(0.5))
+                    .fill(Color("RecPurple1").opacity(0.9))
                     .blur(radius: 10)
                     .scaleEffect(1.15)
             } else {
@@ -259,7 +259,7 @@ struct NodeView: View {
             return LinearGradient(
                 colors: [
                     Color("RecPurple1"),
-                    Color("RecPurple2").opacity(0.9)
+                    Color("RecPurple2")
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing

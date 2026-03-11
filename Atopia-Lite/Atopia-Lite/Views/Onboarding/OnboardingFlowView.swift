@@ -10,7 +10,8 @@ import SwiftUI
 struct OnboardingFlowView: View {
     @EnvironmentObject var authManager: AuthManager
     @State private var currentStep: OnboardingStep = .location
-    
+    @State private var hashedContactPhones: Set<String> = []
+
     enum OnboardingStep {
         case location
         case contacts
@@ -21,11 +22,12 @@ struct OnboardingFlowView: View {
         Group {
             switch currentStep {
             case .location:
-                LocationOnboardingView { city, state, lat, lon in
+                LocationOnboardingView { city, state, neighborhood, lat, lon in
                     print("[Onboarding] Location step complete: city=\(city ?? "nil"), state=\(state ?? "nil"), lat=\(lat ?? 0), lon=\(lon ?? 0)")
                     guard var user = authManager.currentUser else { return }
                     user.city = city
                     user.state = state
+                    user.neighborhood = neighborhood
                     user.latitude = lat
                     user.longitude = lon
                     authManager.updateCurrentUser(user)
@@ -36,7 +38,9 @@ struct OnboardingFlowView: View {
                 }
                 
             case .contacts:
-                ContactsOnboardingView {
+                ContactsOnboardingView { phones in
+                    hashedContactPhones = phones
+                    print("[Onboarding] Contacts step complete: \(phones.count) hashed phone numbers")
                     withAnimation {
                         currentStep = .cluster
                         print("[Onboarding] Transitioning to step: cluster")
@@ -59,5 +63,30 @@ struct OnboardingFlowView: View {
         user.hasCompletedOnboarding = true
         print("[Onboarding] Onboarding complete for userId=\(user.id), saved \(user.savedDatapoints.count) datapoints, setting hasCompletedOnboarding=true")
         authManager.updateCurrentUser(user)
+
+        // Sync to CloudKit: publish hashed phone + datapoints, discover contacts
+        let ck = CloudKitManager.shared
+        let hashedPhone: String? = {
+            guard let raw = user.phoneNumber else { return nil }
+            return ContactsOnboardingView.sha256(
+                ContactsOnboardingView.normalizePhone(raw)
+            )
+        }()
+        let labels = profileManager.savedDatapointLabels
+
+        Task {
+            await ck.publishProfile(
+                userId: user.id,
+                hashedPhone: hashedPhone,
+                datapointLabels: labels
+            )
+
+            if !hashedContactPhones.isEmpty {
+                let discovered = await ck.discoverUsers(
+                    matchingHashedPhones: hashedContactPhones
+                )
+                print("[Onboarding] CloudKit discovered \(discovered.count) matching users")
+            }
+        }
     }
 }

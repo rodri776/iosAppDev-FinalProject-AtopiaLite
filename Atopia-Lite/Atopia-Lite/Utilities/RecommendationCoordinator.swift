@@ -26,7 +26,7 @@ class RecommendationCoordinator {
         }
         
         let savedLabels = savedDatapointPaths.compactMap { path -> String? in
-            path.components(separatedBy: "/").last
+            path.components(separatedBy: UserProfileManager.pathSeparator).last
         }
         print("[Recommendations] Extracted \(savedLabels.count) labels from paths")
         
@@ -89,7 +89,7 @@ class RecommendationCoordinator {
             components.append(subSub)
         }
         components.append(label)
-        return components.joined(separator: "/")
+        return components.joined(separator: UserProfileManager.pathSeparator)
     }
 }
 

@@ -11,7 +11,8 @@ import Combine
 
 struct LocationOnboardingView: View {
     @StateObject private var locationFetcher = LocationFetcher()
-    var onComplete: (String?, String?, Double?, Double?) -> Void
+    /// (city, state, neighborhood, latitude, longitude)
+    var onComplete: (String?, String?, String?, Double?, Double?) -> Void
 
     var body: some View {
         VStack(spacing: 24) {
@@ -56,11 +57,11 @@ struct LocationOnboardingView: View {
 
                 Button {
                     if locationFetcher.locationObtained {
-                        print("[Location] 'Continue' tapped — passing location: city=\(locationFetcher.city ?? "nil"), state=\(locationFetcher.state ?? "nil"), lat=\(locationFetcher.latitude ?? 0), lon=\(locationFetcher.longitude ?? 0)")
-                        onComplete(locationFetcher.city, locationFetcher.state, locationFetcher.latitude, locationFetcher.longitude)
+                        print("[Location] 'Continue' tapped — passing location: city=\(locationFetcher.city ?? "nil"), state=\(locationFetcher.state ?? "nil"), neighborhood=\(locationFetcher.neighborhood ?? "nil"), lat=\(locationFetcher.latitude ?? 0), lon=\(locationFetcher.longitude ?? 0)")
+                        onComplete(locationFetcher.city, locationFetcher.state, locationFetcher.neighborhood, locationFetcher.latitude, locationFetcher.longitude)
                     } else {
                         print("[Location] 'Skip' tapped — no location data")
-                        onComplete(nil, nil, nil, nil)
+                        onComplete(nil, nil, nil, nil, nil)
                     }
                 } label: {
                     Text(locationFetcher.locationObtained ? "Continue" : "Skip")
@@ -89,6 +90,7 @@ private class LocationFetcher: NSObject, ObservableObject, CLLocationManagerDele
     @Published var longitude: Double?
     @Published var city: String?
     @Published var state: String?
+    @Published var neighborhood: String?
 
     override init() {
         super.init()
@@ -109,9 +111,10 @@ private class LocationFetcher: NSObject, ObservableObject, CLLocationManagerDele
             self.longitude = -87.6298
             self.city = "Chicago"
             self.state = "IL"
+            self.neighborhood = "The Loop"
             self.locationObtained = true
             self.isRequesting = false
-            print("[Location] Simulated location: lat=41.8781, lon=-87.6298, city=Chicago, state=IL")
+            print("[Location] Simulated location: lat=41.8781, lon=-87.6298, city=Chicago, state=IL, neighborhood=The Loop")
         }
         #else
         let status = manager.authorizationStatus
@@ -149,9 +152,10 @@ private class LocationFetcher: NSObject, ObservableObject, CLLocationManagerDele
             guard let self, let placemark = placemarks?.first else { return }
             self.city = placemark.locality
             self.state = placemark.administrativeArea
+            self.neighborhood = placemark.subLocality
             self.locationObtained = true
             self.isRequesting = false
-            print("[Location] Reverse geocode result: city=\(placemark.locality ?? "nil"), state=\(placemark.administrativeArea ?? "nil")")
+            print("[Location] Reverse geocode result: city=\(placemark.locality ?? "nil"), state=\(placemark.administrativeArea ?? "nil"), neighborhood=\(placemark.subLocality ?? "nil")")
         }
     }
 

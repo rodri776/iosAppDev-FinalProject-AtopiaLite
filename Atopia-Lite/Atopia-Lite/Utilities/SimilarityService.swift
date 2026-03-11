@@ -101,6 +101,6 @@ class SimilarityService: ObservableObject {
     }
 
     private func extractLabels(from paths: [String]) -> [String] {
-        paths.compactMap { $0.components(separatedBy: "/").last }
+        paths.compactMap { $0.components(separatedBy: UserProfileManager.pathSeparator).last }
     }
 }
