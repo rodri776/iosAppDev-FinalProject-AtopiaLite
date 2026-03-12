@@ -30,6 +30,8 @@ struct AuthView: View {
                         .font(.system(size: 20, weight: .bold, design: .serif))
                         .italic(true).padding(.bottom)
                 }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Atopia Lite")
                 if isSignUp {
                     Text("Create your account")
                         .font(.title3).foregroundStyle(.secondary)

@@ -46,6 +46,10 @@ struct UsersMapView: View {
                                         )
                                 }
                             }
+                            .accessibilityElement(children: .ignore)
+                            .accessibilityLabel("\(result.user.displayName), \(result.percentageSimilarity)% match")
+                            .accessibilityHint("Shows profile details")
+                            .accessibilityAddTraits(.isButton)
                         }
                     }
                 }

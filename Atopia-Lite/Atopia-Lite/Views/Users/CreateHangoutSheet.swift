@@ -63,6 +63,9 @@ struct CreateHangoutSheet: View {
                                         .padding(.vertical, 10)
                                         .padding(.horizontal, 16)
                                     }
+                                    .accessibilityElement(children: .ignore)
+                                    .accessibilityLabel("\(completion.title), \(completion.subtitle)")
+                                    .accessibilityHint("Selects this location")
                                     Divider()
                                 }
                             }
@@ -80,6 +83,8 @@ struct CreateHangoutSheet: View {
                             .frame(height: 150)
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                             .allowsHitTesting(false)
+                            .accessibilityElement(children: .ignore)
+                            .accessibilityLabel("Map showing \(mapItem.name ?? "selected location")")
                         }
                     }
 
@@ -116,6 +121,7 @@ struct CreateHangoutSheet: View {
                     }
                     .disabled(activity.isEmpty)
                     .opacity(activity.isEmpty ? 0.5 : 1)
+                    .accessibilityHint(activity.isEmpty ? "Enter an activity name first" : "Sends a message invite to \(userName)")
                 }
                 .padding(20)
             }
@@ -128,6 +134,7 @@ struct CreateHangoutSheet: View {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(.secondary)
                     }
+                    .accessibilityLabel("Close")
                 }
             }
             .sheet(isPresented: $showMessageCompose) {

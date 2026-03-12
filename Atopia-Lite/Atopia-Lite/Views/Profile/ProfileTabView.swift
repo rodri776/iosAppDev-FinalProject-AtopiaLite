@@ -29,6 +29,7 @@ struct ProfileTabView: View {
                                         .font(.system(size: 40, weight: .bold, design: .serif))
                                         .foregroundStyle(.gray)
                                 )
+                                .accessibilityHidden(true)
 
                             Text(user.displayName)
                                 .font(.system(size: 28, weight: .bold, design: .serif))

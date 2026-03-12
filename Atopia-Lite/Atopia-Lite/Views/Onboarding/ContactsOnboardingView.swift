@@ -38,6 +38,8 @@ struct ContactsOnboardingView: View {
                 .padding(.vertical, 10)
                 .background(Color.green.opacity(0.15))
                 .clipShape(Capsule())
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("24 contacts found")
             }
 
             VStack(spacing: 16) {
@@ -47,7 +49,9 @@ struct ContactsOnboardingView: View {
                     } label: {
                         HStack(spacing: 8) {
                             if isLoading {
-                                ProgressView().tint(.white)
+                                ProgressView()
+                                    .tint(.white)
+                                    .accessibilityLabel("Finding contacts")
                             } else {
                                 Image(systemName: "person.2.fill")
                             }
@@ -61,6 +65,7 @@ struct ContactsOnboardingView: View {
                         .clipShape(Capsule())
                     }
                     .disabled(isLoading)
+                    .accessibilityLabel(isLoading ? "Finding contacts, please wait" : "Share Contacts")
                 }
 
                 if hasSharedContacts {

@@ -89,6 +89,7 @@ struct ClusterContentView: View {
                                     )
                                 }
                                 .disabled(viewModel.savedDatapointsCount < 5)
+                                .accessibilityHint(viewModel.savedDatapointsCount < 5 ? "Save \(5 - viewModel.savedDatapointsCount) more datapoints to continue" : "Finishes onboarding")
 
                                 if viewModel.savedDatapointsCount < 5 {
                                     Text("Save \(5 - viewModel.savedDatapointsCount) more datapoint\(5 - viewModel.savedDatapointsCount == 1 ? "" : "s")")
@@ -109,11 +110,14 @@ struct ClusterContentView: View {
                     .onTapGesture {
                         showOnboardingPopup = false
                     }
+                    .accessibilityLabel("Dismiss")
+                    .accessibilityAddTraits(.isButton)
                 
                 OnboardingPopup(onDismiss: {
                     showOnboardingPopup = false
                 })
                 .padding(.horizontal, 20)
+                .accessibilityAddTraits(.isModal)
             }
             
             if showProfileSheet {
@@ -122,11 +126,14 @@ struct ClusterContentView: View {
                     .onTapGesture {
                         showProfileSheet = false
                     }
+                    .accessibilityLabel("Dismiss")
+                    .accessibilityAddTraits(.isButton)
                 
                 ProfilePopup(onDismiss: {
                     showProfileSheet = false
                 })
                 .padding(.horizontal, 20)
+                .accessibilityAddTraits(.isModal)
             }
             
             if showRecommendationsPopup {
@@ -135,11 +142,14 @@ struct ClusterContentView: View {
                     .onTapGesture {
                         showRecommendationsPopup = false
                     }
+                    .accessibilityLabel("Dismiss")
+                    .accessibilityAddTraits(.isButton)
                 
                 RecommendationsPopup(onDismiss: {
                     showRecommendationsPopup = false
                 })
                 .padding(.horizontal, 20)
+                .accessibilityAddTraits(.isModal)
             }
         }
         .onAppear {

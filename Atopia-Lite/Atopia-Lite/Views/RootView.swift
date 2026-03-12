@@ -75,6 +75,7 @@ struct SplashScreen: View {
                 HStack {
                     Image("Logo").resizable().scaledToFit()
                         .frame(width: 150, height: 150)
+                        .accessibilityHidden(true)
                     Text("Lite")
                         .font(.system(size: 20, weight: .bold, design: .serif))
                         .italic(true).padding(.bottom)
@@ -85,5 +86,9 @@ struct SplashScreen: View {
                     .foregroundStyle(.gray)
             }
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Atopia Lite, by Juniper Rodriguez and Alina Li")
+        .accessibilityAddTraits(.isButton)
+        .accessibilityHint("Tap to continue")
     }
 }

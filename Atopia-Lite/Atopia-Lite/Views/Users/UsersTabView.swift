@@ -80,6 +80,17 @@ struct UserCard: View {
         max(0, commonDisplayLabels.count - maxChips)
     }
 
+    private var cardSummary: String {
+        var summary = "\(result.user.abbreviatedName), \(result.percentageSimilarity)% match"
+        if !commonDisplayLabels.isEmpty {
+            summary += ". Common interests: \(commonDisplayLabels.joined(separator: ", "))"
+            if extraCount > 0 {
+                summary += ", and \(extraCount) more"
+            }
+        }
+        return summary
+    }
+
     var body: some View {
         VStack(spacing: 14) {
             HStack(alignment: .top) {
@@ -91,6 +102,7 @@ struct UserCard: View {
                             .font(.title3.bold())
                             .foregroundStyle(Color(.darkGray))
                     )
+                    .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(result.user.abbreviatedName)
@@ -106,6 +118,10 @@ struct UserCard: View {
                     .font(.title3.bold())
                     .foregroundStyle(Color("SavedGreen"))
             }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(cardSummary)
+            .accessibilityAddTraits(.isButton)
+            .accessibilityHint("Shows full profile")
 
             if !commonDisplayLabels.isEmpty {
                 HStack(spacing: 8) {
@@ -124,9 +140,9 @@ struct UserCard: View {
                     }
                     Spacer()
                 }
+                .accessibilityHidden(true)
             }
 
-            // Create Hangout button
             Button {
                 print("[UsersTab] 'Create Hangout' tapped for \(result.user.displayName)")
                 showCreateHangout = true
@@ -143,6 +159,7 @@ struct UserCard: View {
                 .background(Color("SavedGreen"))
                 .clipShape(Capsule())
             }
+            .accessibilityLabel("Create Hangout with \(result.user.abbreviatedName)")
             .sheet(isPresented: $showCreateHangout) {
                 CreateHangoutSheet(
                     userName: result.user.displayName,
@@ -194,6 +211,7 @@ struct UserDetailSheet: View {
                                     .font(.title.bold())
                                     .foregroundStyle(Color(.darkGray))
                             )
+                            .accessibilityHidden(true)
 
                         Text(result.user.abbreviatedName)
                             .font(.title2.bold())
@@ -211,6 +229,7 @@ struct UserDetailSheet: View {
                             .overlay(
                                 Capsule().stroke(Color("SavedGreen"), lineWidth: 1)
                             )
+                            .accessibilityLabel("\(result.percentageSimilarity) percent match")
 
                         // Create Hangout button
                         Button {
@@ -228,6 +247,7 @@ struct UserDetailSheet: View {
                                 Capsule().stroke(Color("SavedGreen"), lineWidth: 1.5)
                             )
                         }
+                        .accessibilityLabel("Create Hangout with \(result.user.abbreviatedName)")
                         .sheet(isPresented: $showCreateHangout) {
                             CreateHangoutSheet(
                                 userName: result.user.displayName,

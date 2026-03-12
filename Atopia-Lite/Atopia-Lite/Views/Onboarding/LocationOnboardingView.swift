@@ -35,6 +35,8 @@ struct LocationOnboardingView: View {
                 .padding(.horizontal, 20).padding(.vertical, 10)
                 .background(Color.green.opacity(0.15))
                 .clipShape(Capsule())
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Location set to \(city), \(state)")
             }
 
             VStack(spacing: 16) {
@@ -42,7 +44,9 @@ struct LocationOnboardingView: View {
                     Button { locationFetcher.requestLocation() } label: {
                         HStack(spacing: 8) {
                             if locationFetcher.isRequesting {
-                                ProgressView().tint(.white)
+                                ProgressView()
+                                    .tint(.white)
+                                    .accessibilityLabel("Getting location")
                             } else {
                                 Image(systemName: "location.fill")
                             }
@@ -52,6 +56,7 @@ struct LocationOnboardingView: View {
                         .background(Color.green).foregroundStyle(.white).clipShape(Capsule())
                     }
                     .disabled(locationFetcher.isRequesting)
+                    .accessibilityLabel(locationFetcher.isRequesting ? "Getting location, please wait" : "Share Location")
                 }
 
                 if locationFetcher.locationObtained {
