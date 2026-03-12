@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import UIKit
 
 struct UsersTabView: View {
     @EnvironmentObject var authManager: AuthManager
@@ -69,7 +68,6 @@ struct UserCard: View {
 
     private let maxChips = 3
 
-    // datapointsInCommon are labels (e.g. "Yoga"), display them directly
     private var commonDisplayLabels: [String] {
         result.datapointsInCommon.sorted()
     }
@@ -84,7 +82,6 @@ struct UserCard: View {
 
     var body: some View {
         VStack(spacing: 14) {
-            // Top row: avatar, name, percentage
             HStack(alignment: .top) {
                 Circle()
                     .fill(Color(.systemGray4).opacity(0.5))
@@ -110,7 +107,6 @@ struct UserCard: View {
                     .foregroundStyle(Color("SavedGreen"))
             }
 
-            // Common datapoint chips (max 3) + "+N more"
             if !commonDisplayLabels.isEmpty {
                 HStack(spacing: 8) {
                     ForEach(displayedLabels, id: \.self) { label in
@@ -169,7 +165,6 @@ struct UserDetailSheet: View {
 
     private static let datasetItems: [DataItem] = DatasetLoader.loadDataset().items
 
-    // Map each saved datapoint path to its DataItem by extracting the label
     private var resolvedDatapoints: [DataItem] {
         result.user.savedDatapoints.compactMap { path in
             let label = path.components(separatedBy: UserProfileManager.pathSeparator).last ?? path
@@ -177,7 +172,6 @@ struct UserDetailSheet: View {
         }
     }
 
-    // Group datapoints by category
     private var groupedByCategory: [(category: String, items: [DataItem])] {
         var dict: [String: [DataItem]] = [:]
         for dp in resolvedDatapoints {
@@ -191,7 +185,6 @@ struct UserDetailSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
-                    // Centered header
                     VStack(spacing: 10) {
                         Circle()
                             .fill(Color(.systemGray4).opacity(0.5))
@@ -209,7 +202,6 @@ struct UserDetailSheet: View {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
 
-                        // Match badge
                         Text("\(result.percentageSimilarity)% MATCH")
                             .font(.caption.bold())
                             .padding(.horizontal, 14).padding(.vertical, 6)
@@ -245,7 +237,6 @@ struct UserDetailSheet: View {
                     }
                     .padding(.top, 8)
 
-                    // Datapoints section
                     VStack(alignment: .leading, spacing: 16) {
                         Text("DATAPOINTS")
                             .font(.headline.bold())

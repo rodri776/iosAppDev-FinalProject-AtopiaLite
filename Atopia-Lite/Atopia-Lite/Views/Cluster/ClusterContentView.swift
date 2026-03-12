@@ -71,21 +71,30 @@ struct ClusterContentView: View {
                         recommendButton
                         
                         if isOnboarding {
-                            Button {
-                                onOnboardingComplete?()
-                            } label: {
-                                HStack(spacing: 8) {
-                                    Image(systemName: "checkmark.circle.fill")
-                                    Text("Continue")
+                            VStack(spacing: 4) {
+                                Button {
+                                    onOnboardingComplete?()
+                                } label: {
+                                    HStack(spacing: 8) {
+                                        Image(systemName: "checkmark.circle.fill")
+                                        Text("Continue")
+                                    }
+                                    .font(.system(size: 16, weight: .semibold, design: .serif))
+                                    .foregroundColor(viewModel.savedDatapointsCount >= 5 ? .white : .gray)
+                                    .padding(.horizontal, 24)
+                                    .padding(.vertical, 12)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 22)
+                                            .fill(viewModel.savedDatapointsCount >= 5 ? Color.accentColor : Color(.systemGray4))
+                                    )
                                 }
-                                .font(.system(size: 16, weight: .semibold, design: .serif))
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 24)
-                                .padding(.vertical, 12)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 22)
-                                        .fill(Color.accentColor)
-                                )
+                                .disabled(viewModel.savedDatapointsCount < 5)
+
+                                if viewModel.savedDatapointsCount < 5 {
+                                    Text("Save \(5 - viewModel.savedDatapointsCount) more datapoint\(5 - viewModel.savedDatapointsCount == 1 ? "" : "s")")
+                                        .font(.system(size: 12, weight: .medium, design: .serif))
+                                        .foregroundColor(.gray)
+                                }
                             }
                         }
                     }

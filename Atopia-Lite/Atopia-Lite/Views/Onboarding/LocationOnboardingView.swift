@@ -11,7 +11,6 @@ import Combine
 
 struct LocationOnboardingView: View {
     @StateObject private var locationFetcher = LocationFetcher()
-    /// (city, state, neighborhood, latitude, longitude)
     var onComplete: (String?, String?, String?, Double?, Double?) -> Void
 
     var body: some View {
@@ -55,19 +54,16 @@ struct LocationOnboardingView: View {
                     .disabled(locationFetcher.isRequesting)
                 }
 
-                Button {
-                    if locationFetcher.locationObtained {
+                if locationFetcher.locationObtained {
+                    Button {
                         print("[Location] 'Continue' tapped — passing location: city=\(locationFetcher.city ?? "nil"), state=\(locationFetcher.state ?? "nil"), neighborhood=\(locationFetcher.neighborhood ?? "nil"), lat=\(locationFetcher.latitude ?? 0), lon=\(locationFetcher.longitude ?? 0)")
                         onComplete(locationFetcher.city, locationFetcher.state, locationFetcher.neighborhood, locationFetcher.latitude, locationFetcher.longitude)
-                    } else {
-                        print("[Location] 'Skip' tapped — no location data")
-                        onComplete(nil, nil, nil, nil, nil)
+                    } label: {
+                        Text("Continue")
+                            .font(.title3.bold()).frame(maxWidth: .infinity).padding()
+                            .background(Color.green.opacity(0.5))
+                            .foregroundStyle(.black).clipShape(Capsule())
                     }
-                } label: {
-                    Text(locationFetcher.locationObtained ? "Continue" : "Skip")
-                        .font(.title3.bold()).frame(maxWidth: .infinity).padding()
-                        .background(locationFetcher.locationObtained ? Color.green.opacity(0.5) : Color(.systemGray5))
-                        .foregroundStyle(.black).clipShape(Capsule())
                 }
             }
             .padding(.horizontal, 32)

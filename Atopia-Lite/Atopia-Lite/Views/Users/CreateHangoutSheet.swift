@@ -16,7 +16,6 @@ struct CreateHangoutSheet: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var activity = ""
-    @State private var locationQuery = ""
     @State private var description = ""
     @State private var eventDate = Date().addingTimeInterval(3600)
     @State private var locationService = LocationSearchService()
@@ -28,7 +27,6 @@ struct CreateHangoutSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    // Activity
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Activity")
                             .font(.subheadline.bold())
@@ -36,7 +34,6 @@ struct CreateHangoutSheet: View {
                             .fieldStyle()
                     }
 
-                    // Venue / Location
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Venue / Location")
                             .font(.subheadline.bold())
@@ -44,7 +41,6 @@ struct CreateHangoutSheet: View {
                         TextField("Search for a place", text: $locationService.queryFragment)
                             .fieldStyle()
 
-                        // Autocomplete results
                         if !locationService.results.isEmpty {
                             VStack(spacing: 0) {
                                 ForEach(locationService.results, id: \.self) { completion in
@@ -74,7 +70,6 @@ struct CreateHangoutSheet: View {
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
 
-                        // Map preview
                         if let mapItem = locationService.selectedMapItem {
                             Map {
                                 Marker(
@@ -88,7 +83,6 @@ struct CreateHangoutSheet: View {
                         }
                     }
 
-                    // Description
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Description")
                             .font(.subheadline.bold())
@@ -97,7 +91,6 @@ struct CreateHangoutSheet: View {
                             .fieldStyle()
                     }
 
-                    // Date & Time
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Date & Time")
                             .font(.subheadline.bold())
@@ -106,7 +99,6 @@ struct CreateHangoutSheet: View {
                             .fieldStyle()
                     }
 
-                    // Send Invite
                     Button {
                         sendInvite()
                     } label: {
@@ -204,7 +196,7 @@ struct CreateHangoutSheet: View {
     }
 }
 
-// MARK: - MFMessageComposeViewController wrapper
+// MARK: - MessageComposeView
 
 struct MessageComposeView: UIViewControllerRepresentable {
     let recipients: [String]

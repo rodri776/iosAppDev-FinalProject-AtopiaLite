@@ -6,18 +6,12 @@
 //
 
 import SwiftUI
-import Contacts
-import CryptoKit
 
 struct ContactsOnboardingView: View {
-    /// Returns the set of SHA-256 hashed phone numbers from the user's address book.
-    var onComplete: (Set<String>) -> Void
+    var onComplete: () -> Void
 
     @State private var hasSharedContacts = false
     @State private var isLoading = false
-    @State private var contactCount = 0
-    @State private var hashedPhones: Set<String> = []
-    @State private var permissionDenied = false
 
     var body: some View {
         VStack(spacing: 24) {
@@ -37,7 +31,7 @@ struct ContactsOnboardingView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundStyle(.green)
-                    Text("\(contactCount) contacts found")
+                    Text("24 contacts found")
                         .font(.headline)
                 }
                 .padding(.horizontal, 20)
@@ -46,19 +40,10 @@ struct ContactsOnboardingView: View {
                 .clipShape(Capsule())
             }
 
-            if permissionDenied {
-                Text("Contact access denied. You can enable it in Settings.")
-                    .font(.caption)
-                    .foregroundStyle(.red)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 32)
-            }
-
             VStack(spacing: 16) {
                 if !hasSharedContacts {
                     Button {
-                        print("[Contacts] 'Share Contacts' button tapped")
-                        fetchContacts()
+                        simulateContactSharing()
                     } label: {
                         HStack(spacing: 8) {
                             if isLoading {
@@ -78,17 +63,18 @@ struct ContactsOnboardingView: View {
                     .disabled(isLoading)
                 }
 
-                Button {
-                    print("[Contacts] '\(hasSharedContacts ? "Continue" : "Skip")' tapped")
-                    onComplete(hashedPhones)
-                } label: {
-                    Text(hasSharedContacts ? "Continue" : "Skip")
-                        .font(.title3.bold())
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(hasSharedContacts ? Color.blue.opacity(0.5) : Color(.systemGray5))
-                        .foregroundStyle(.black)
-                        .clipShape(Capsule())
+                if hasSharedContacts {
+                    Button {
+                        onComplete()
+                    } label: {
+                        Text("Continue")
+                            .font(.title3.bold())
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue.opacity(0.5))
+                            .foregroundStyle(.black)
+                            .clipShape(Capsule())
+                    }
                 }
             }
             .padding(.horizontal, 32)
@@ -99,65 +85,13 @@ struct ContactsOnboardingView: View {
         .background(Color("BackgroundColor").ignoresSafeArea())
     }
 
-    private func fetchContacts() {
+    private func simulateContactSharing() {
         isLoading = true
-        permissionDenied = false
-
-        let store = CNContactStore()
-        store.requestAccess(for: .contacts) { granted, error in
-            if let error {
-                print("[Contacts] ERROR requesting access: \(error.localizedDescription)")
-            }
-
-            guard granted else {
-                DispatchQueue.main.async {
-                    print("[Contacts] Access denied")
-                    isLoading = false
-                    permissionDenied = true
-                }
-                return
-            }
-
-            print("[Contacts] Access granted, fetching phone numbers")
-
-            var hashed: Set<String> = []
-            var count = 0
-
-            let keys = [CNContactPhoneNumbersKey] as [CNKeyDescriptor]
-            let request = CNContactFetchRequest(keysToFetch: keys)
-
-            do {
-                try store.enumerateContacts(with: request) { contact, _ in
-                    for phone in contact.phoneNumbers {
-                        let digits = Self.normalizePhone(phone.value.stringValue)
-                        guard digits.count >= 7 else { continue }
-                        hashed.insert(Self.sha256(digits))
-                    }
-                    count += 1
-                }
-            } catch {
-                print("[Contacts] ERROR enumerating contacts: \(error.localizedDescription)")
-            }
-
-            DispatchQueue.main.async {
-                print("[Contacts] Scan complete: \(count) contacts, \(hashed.count) hashed phone numbers")
-                self.contactCount = count
-                self.hashedPhones = hashed
-                self.hasSharedContacts = true
-                self.isLoading = false
-            }
+        // Simulate a brief delay for the "scan"
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            hasSharedContacts = true
+            isLoading = false
+            print("[Contacts] Simulated contact sharing complete")
         }
-    }
-
-    /// Strip everything except digits from a phone string.
-    static func normalizePhone(_ raw: String) -> String {
-        String(raw.unicodeScalars.filter(CharacterSet.decimalDigits.contains))
-    }
-
-    /// SHA-256 hash of a string, returned as lowercase hex.
-    static func sha256(_ input: String) -> String {
-        let data = Data(input.utf8)
-        let hash = SHA256.hash(data: data)
-        return hash.map { String(format: "%02x", $0) }.joined()
     }
 }

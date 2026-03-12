@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
+import CryptoKit
 
 struct OnboardingFlowView: View {
     @EnvironmentObject var authManager: AuthManager
     @State private var currentStep: OnboardingStep = .location
-    @State private var hashedContactPhones: Set<String> = []
 
     enum OnboardingStep {
         case location
@@ -36,11 +36,10 @@ struct OnboardingFlowView: View {
                         print("[Onboarding] Transitioning to step: contacts")
                     }
                 }
-                
+
             case .contacts:
-                ContactsOnboardingView { phones in
-                    hashedContactPhones = phones
-                    print("[Onboarding] Contacts step complete: \(phones.count) hashed phone numbers")
+                ContactsOnboardingView {
+                    print("[Onboarding] Contacts step complete")
                     withAnimation {
                         currentStep = .cluster
                         print("[Onboarding] Transitioning to step: cluster")
@@ -64,13 +63,13 @@ struct OnboardingFlowView: View {
         print("[Onboarding] Onboarding complete for userId=\(user.id), saved \(user.savedDatapoints.count) datapoints, setting hasCompletedOnboarding=true")
         authManager.updateCurrentUser(user)
 
-        // Sync to CloudKit: publish hashed phone + datapoints, discover contacts
+        // Sync to CloudKit: publish hashed phone + datapoints
         let ck = CloudKitManager.shared
         let hashedPhone: String? = {
             guard let raw = user.phoneNumber else { return nil }
-            return ContactsOnboardingView.sha256(
-                ContactsOnboardingView.normalizePhone(raw)
-            )
+            let digits = String(raw.unicodeScalars.filter(CharacterSet.decimalDigits.contains))
+            let hash = SHA256.hash(data: Data(digits.utf8))
+            return hash.map { String(format: "%02x", $0) }.joined()
         }()
         let labels = profileManager.savedDatapointLabels
 
@@ -80,13 +79,6 @@ struct OnboardingFlowView: View {
                 hashedPhone: hashedPhone,
                 datapointLabels: labels
             )
-
-            if !hashedContactPhones.isEmpty {
-                let discovered = await ck.discoverUsers(
-                    matchingHashedPhones: hashedContactPhones
-                )
-                print("[Onboarding] CloudKit discovered \(discovered.count) matching users")
-            }
         }
     }
 }

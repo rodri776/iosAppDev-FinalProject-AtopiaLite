@@ -45,12 +45,6 @@ class LocationSearchService: NSObject, MKLocalSearchCompleterDelegate {
         }
     }
 
-    func clear() {
-        queryFragment = ""
-        results = []
-        selectedMapItem = nil
-    }
-
     // MARK: - MKLocalSearchCompleterDelegate
 
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
