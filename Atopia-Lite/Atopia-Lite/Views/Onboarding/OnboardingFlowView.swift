@@ -8,10 +8,12 @@
 import SwiftUI
 import CryptoKit
 
+/// Drives the three-step onboarding sequence: location → contacts → interest graph.
 struct OnboardingFlowView: View {
     @EnvironmentObject var authManager: AuthManager
     @State private var currentStep: OnboardingStep = .location
 
+    /// The pages the user moves through during onboarding.
     enum OnboardingStep {
         case location
         case contacts
@@ -55,6 +57,7 @@ struct OnboardingFlowView: View {
         }
     }
     
+    /// Persists the user's saved datapoints, marks onboarding done, and syncs the profile to CloudKit.
     private func completeOnboarding() {
         guard var user = authManager.currentUser else { return }
         let profileManager = UserProfileManager(userId: user.id)

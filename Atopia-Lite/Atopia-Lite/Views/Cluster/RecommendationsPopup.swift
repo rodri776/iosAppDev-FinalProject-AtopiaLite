@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Info popup explaining how the NLEmbedding-based recommendation system works.
 struct RecommendationsPopup: View {
     var onDismiss: () -> Void
     

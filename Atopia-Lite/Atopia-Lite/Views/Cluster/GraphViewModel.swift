@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 
+/// Central state for the interest graph — owns nodes, edges, physics, expansion, and recommendations.
 @MainActor
 class GraphViewModel: ObservableObject {
     @Published var nodes: [Node] = []
@@ -81,6 +82,7 @@ class GraphViewModel: ObservableObject {
         print("[Graph] Dataset loaded: \(dataItems.count) items, \(categoryHierarchy.count) categories")
     }
     
+    /// Places the "Me" root node and starts the physics loop.
     func setupInitialNode(in size: CGSize) {
         canvasSize = size
         graphEngine.setCanvasSize(size)
@@ -136,6 +138,7 @@ class GraphViewModel: ObservableObject {
         panOffset = newPan
     }
     
+    /// Handles a tap on any node — expands, collapses, or toggles a datapoint's saved state.
     func toggleNode(nodeId: UUID) {
         guard let index = nodes.firstIndex(where: { $0.id == nodeId }) else { return }
         let node = nodes[index]
@@ -256,6 +259,7 @@ class GraphViewModel: ObservableObject {
         scheduleInstructionReset(to: .idle)
     }
     
+    /// Kicks off the recommendation pipeline and adds result nodes to the graph.
     func generateRecommendations() {
         print("[Graph] Generating recommendations (saved=\(profileManager.savedDatapointsCount))")
         isCalculatingRecommendations = true
@@ -331,6 +335,7 @@ class GraphViewModel: ObservableObject {
         generator.notificationOccurred(.success)
     }
     
+    /// Removes all recommendation nodes and edges from the graph.
     func dismissRecommendations() {
         print("[Graph] Dismissing recommendations")
         let nodeIdsToRemove = Set(nodes.filter { $0.isFromRecommendation }.map { $0.id })
@@ -401,6 +406,7 @@ class GraphViewModel: ObservableObject {
         profileManager.getSavedDatapointsByCategory(allDataItems: dataItems)
     }
     
+    /// Determines if a node should be highlighted, dimmed, or normal based on what's currently expanded.
     func focusState(for node: Node) -> NodeFocusState {
         if activePath.isEmpty {
             return .normal

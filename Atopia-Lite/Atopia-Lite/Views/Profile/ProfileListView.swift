@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Displays the user's saved datapoints grouped by category, or an empty-state prompt.
 struct ProfileListView: View {
     let profileManager: UserProfileManager
 

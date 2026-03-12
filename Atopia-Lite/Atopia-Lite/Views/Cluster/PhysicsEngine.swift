@@ -8,6 +8,7 @@
 import CoreGraphics
 import Foundation
 
+/// Applies spring forces, repulsion, and collision avoidance to keep nodes from overlapping.
 @MainActor
 class PhysicsEngine {
     

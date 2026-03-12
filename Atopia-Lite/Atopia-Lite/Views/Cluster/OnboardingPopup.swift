@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Welcome popup that explains how the graph and recommendations work.
 struct OnboardingPopup: View {
     var onDismiss: () -> Void
     
@@ -60,9 +61,7 @@ struct OnboardingPopup: View {
                         .foregroundColor(Color("SavedGreen"))
                         .frame(width: 24)
                     
-                    (Text("Click ") +
-                     Text("Recommendations ✨").italic().bold() +
-                    Text(" to discover new interests based on what you've already selected."))
+                    Text("Click **_Recommendations ✨_** to discover new interests based on what you've already selected.")
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(.primary.opacity(0.75))
                 }

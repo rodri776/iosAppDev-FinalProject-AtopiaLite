@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Coordinates physics, zoom/pan, collapse, and group background calculations for the graph.
 @MainActor
 class GraphEngine {
     private let physicsEngine: PhysicsEngine

@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import CoreGraphics
 
+/// Owns the set of saved datapoint paths and persists them to UserDefaults + CloudKit.
 class UserProfileManager: ObservableObject {
     @Published var savedDatapoints: Set<String> = []
     
@@ -51,6 +52,7 @@ class UserProfileManager: ObservableObject {
         savedDatapoints.contains(path)
     }
     
+    /// Groups every saved datapoint under its category for the profile UI.
     func getSavedDatapointsByCategory(
         allDataItems: [DataItem]
     ) -> [SavedCategory] {
@@ -120,6 +122,7 @@ class UserProfileManager: ObservableObject {
         }
     }
     
+    /// Builds a `::` separated path like "Fitness::Running::5K Racing" for storage.
     func datapointPath(category: String?, subcategory: String?, subSubcategory: String?, label: String) -> String {
         var components: [String] = []
         if let cat = category { components.append(cat) }

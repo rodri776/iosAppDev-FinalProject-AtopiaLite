@@ -8,6 +8,7 @@
 import Foundation
 import NaturalLanguage
 
+/// Wraps Apple's NLEmbedding to produce, cache, and compare sentence vectors.
 @MainActor
 class EmbeddingManager {
     private var embeddingCache: [String: [Double]] = [:]
@@ -25,6 +26,7 @@ class EmbeddingManager {
         }
     }
     
+    /// Warms the cache by embedding every label in the dataset up front.
     func preEmbed(labels: [String]) {
         print("[Embedding] Pre-embedding \(labels.count) labels")
         Task {
@@ -44,6 +46,7 @@ class EmbeddingManager {
         await loadingTask?.value
     }
     
+    /// Returns the cached vector for a label, or computes and caches it. Falls back to averaging individual word vectors.
     func getEmbedding(for label: String) -> [Double]? {
         if let cached = embeddingCache[label] {
             return cached
@@ -64,6 +67,7 @@ class EmbeddingManager {
         return averaged
     }
     
+    /// Averages a set of vectors into a single centroid.
     func calculateCentroid(vectors: [[Double]]) -> [Double]? {
         guard !vectors.isEmpty, let firstVector = vectors.first else { return nil }
         
@@ -84,6 +88,7 @@ class EmbeddingManager {
         return centroid
     }
     
+    /// Cosine similarity between two vectors, in range [-1, 1].
     func cosineSimilarity(_ vec1: [Double], _ vec2: [Double]) -> Double {
         guard vec1.count == vec2.count else { return 0.0 }
         
@@ -103,6 +108,7 @@ class EmbeddingManager {
         return dotProduct / denominator
     }
     
+    /// Returns the top N candidate labels closest to the target vector by cosine similarity.
     func findMostSimilar(
         to targetVector: [Double],
         from candidates: [(label: String, vector: [Double])],

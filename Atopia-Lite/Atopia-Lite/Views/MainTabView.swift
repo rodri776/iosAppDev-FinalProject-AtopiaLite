@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Root tab bar with Contacts, Map, and Profile tabs.
 struct MainTabView: View {
     @EnvironmentObject var authManager: AuthManager
 

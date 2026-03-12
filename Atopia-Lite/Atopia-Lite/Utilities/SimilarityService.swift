@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+/// Scores how similar two users are using a weighted mix of embedding cosine distance and label overlap.
 @MainActor
 class SimilarityService: ObservableObject {
     @Published var results: [UserSimilarityResult] = []
@@ -22,6 +23,7 @@ class SimilarityService: ObservableObject {
         self.embeddingManager.preEmbed(labels: dataset.items.map { $0.label })
     }
 
+    /// One user's similarity score and the breakdown of how it was computed.
     struct UserSimilarityResult: Identifiable {
         let user: LocalUser
         let similarity: Double
@@ -32,6 +34,7 @@ class SimilarityService: ObservableObject {
         var id: String { user.id }
     }
 
+    /// Ranks all other users against the current user and publishes sorted results.
     func computeSimilarities(currentUser: LocalUser, otherUsers: [LocalUser]) {
         isCalculating = true
 

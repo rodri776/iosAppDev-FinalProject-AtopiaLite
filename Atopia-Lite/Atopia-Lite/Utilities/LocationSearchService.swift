@@ -8,6 +8,7 @@
 import Foundation
 import MapKit
 
+/// Autocomplete-powered venue search backed by MKLocalSearchCompleter.
 @Observable
 class LocationSearchService: NSObject, MKLocalSearchCompleterDelegate {
     var queryFragment: String = "" {
@@ -30,6 +31,7 @@ class LocationSearchService: NSObject, MKLocalSearchCompleterDelegate {
         completer.resultTypes = .pointOfInterest
     }
 
+    /// Resolves a search completion to an MKMapItem so we can grab coordinates.
     func selectCompletion(_ completion: MKLocalSearchCompletion) async {
         let request = MKLocalSearch.Request(completion: completion)
         let search = MKLocalSearch(request: request)

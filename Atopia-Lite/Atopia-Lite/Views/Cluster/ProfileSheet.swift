@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Shows all saved datapoints grouped by category in a flow-layout chip view.
 struct ProfilePopup: View {
     var onDismiss: () -> Void
     var viewModel: GraphViewModel?
@@ -147,6 +148,7 @@ struct ProfilePopup: View {
 
 // MARK: - Datapoint Chip
 
+/// Capsule-shaped tag showing a datapoint label and its subcategory.
 struct DatapointChip: View {
     let datapoint: SavedDatapoint
     let category: SavedCategory

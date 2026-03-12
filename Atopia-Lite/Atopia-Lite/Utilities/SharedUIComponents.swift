@@ -8,6 +8,7 @@
 import SwiftUI
 
 extension View {
+    /// Rounded gray background used for text fields across the app.
     func fieldStyle() -> some View {
         self
             .padding()
@@ -98,6 +99,7 @@ func sectionCard<Content: View>(title: String, @ViewBuilder content: () -> Conte
     )
 }
 
+/// Wraps children into rows that fit the available width (like a tag cloud).
 struct FlowLayout: Layout {
     var spacing: CGFloat = 8
     

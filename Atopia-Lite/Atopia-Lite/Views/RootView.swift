@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Top-level view that routes between auth, onboarding, and the main app based on session state.
 struct RootView: View {
     @EnvironmentObject var authManager: AuthManager
     @State private var showSplash = true
@@ -65,6 +66,7 @@ struct RootView: View {
     }
 }
 
+/// Full-screen branding overlay shown briefly on launch.
 struct SplashScreen: View {
     var body: some View {
         ZStack {

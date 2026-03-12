@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+/// Renders the zoomable, pannable canvas containing all nodes and edges.
 struct GraphView: View {
     @ObservedObject var viewModel: GraphViewModel
     

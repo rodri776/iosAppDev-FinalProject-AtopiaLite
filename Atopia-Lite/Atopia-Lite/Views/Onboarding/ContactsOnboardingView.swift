@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Onboarding step that simulates a contact-sharing flow so the user sees a "contacts found" confirmation.
 struct ContactsOnboardingView: View {
     var onComplete: () -> Void
 
@@ -90,6 +91,7 @@ struct ContactsOnboardingView: View {
         .background(Color("BackgroundColor").ignoresSafeArea())
     }
 
+    /// Fakes a short delay then reports a fixed number of contacts to keep the demo self-contained.
     private func simulateContactSharing() {
         isLoading = true
         // Simulate a brief delay for the "scan"

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Renders a single graph node — shape, color, glow, checkmark/sparkle badge, and label.
 struct NodeView: View {
     let node: Node
     let focusState: NodeFocusState

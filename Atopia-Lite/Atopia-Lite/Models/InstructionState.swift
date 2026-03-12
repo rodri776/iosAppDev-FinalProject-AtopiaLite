@@ -6,6 +6,7 @@
 //
 import Foundation
 
+/// The hint text shown below the graph as the user navigates nodes.
 enum InstructionState {
     case idle
     case exploringCategory

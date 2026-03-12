@@ -8,6 +8,7 @@
 import Foundation
 import CryptoKit
 
+/// Represents one user stored locally on-device.
 struct LocalUser: Codable, Identifiable {
     let id: String
     var username: String
@@ -44,6 +45,7 @@ struct LocalUser: Codable, Identifiable {
         return nil
     }
     
+    /// SHA-256 hash of the password for local credential storage.
     static func hashPassword(_ password: String) -> String {
         let data = Data(password.utf8)
         let hash = SHA256.hash(data: data)

@@ -6,6 +6,7 @@
 //
 import SwiftUI
 
+/// Handles expanding a node into its children — picks which items to show and lays them out in a circle.
 @MainActor
 class NodeExpansionManager {
     private let profileManager: UserProfileManager
@@ -370,6 +371,7 @@ class NodeExpansionManager {
     }
 }
 
+/// What an expanded node produces: labels, child type, and layout radius.
 struct ExpansionResult {
     let labels: [String]
     let type: Node.NodeType
@@ -377,6 +379,7 @@ struct ExpansionResult {
     let inheritedColor: Color?
 }
 
+/// The nodes, edges, and metadata produced by an expansion or recommendation pass.
 struct NodeCreationResult {
     let nodes: [Node]
     let edges: [Edge]

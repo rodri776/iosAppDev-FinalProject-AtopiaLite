@@ -7,9 +7,11 @@
 
 import SwiftUI
 
+/// Turns recommendation results into visual nodes and edges that get injected into the graph.
 @MainActor
 class RecommendationDisplayManager {
     
+    /// Spawns recommendation datapoint nodes around their nearest parent in the graph.
     func createRecommendationNodes(
         recommendations: [ClusterRecommendation],
         nodes: [Node],

@@ -8,6 +8,7 @@
 import Foundation
 import Security
 
+/// Thin wrapper around the iOS Keychain for storing login credentials.
 struct KeychainHelper {
     private static let service = "com.atopia-lite.credentials"
     

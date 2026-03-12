@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Takes the user's saved datapoints, computes a centroid embedding, and finds the closest unsaved items.
 @MainActor
 class RecommendationCoordinator {
     private let embeddingManager: EmbeddingManager
@@ -15,6 +16,7 @@ class RecommendationCoordinator {
         self.embeddingManager = embeddingManager
     }
     
+    /// Returns up to 5 recommended datapoints based on embedding similarity to what the user has saved.
     func generateRecommendations(
         savedDatapointPaths: Set<String>,
         allDataItems: [DataItem]
@@ -93,6 +95,7 @@ class RecommendationCoordinator {
     }
 }
 
+/// One recommended datapoint with its full category path.
 struct ClusterRecommendation {
     let label: String
     let category: String
@@ -100,6 +103,7 @@ struct ClusterRecommendation {
     let subSubcategory: String?
 }
 
+/// Reasons recommendation generation can fail.
 enum RecommendationError: Error {
     case insufficientData
     case embeddingsNotFound

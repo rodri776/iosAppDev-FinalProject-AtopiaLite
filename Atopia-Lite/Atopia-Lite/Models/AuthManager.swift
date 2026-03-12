@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 
+/// Handles sign-up, login, logout, and session persistence via UserDefaults.
 class AuthManager: ObservableObject {
     @Published var currentUser: LocalUser?
     @Published var allUsers: [LocalUser] = []
@@ -22,6 +23,7 @@ class AuthManager: ObservableObject {
         loadState()
     }
     
+    /// Creates a new user account and logs them in.
     func signUp(username: String, password: String, firstName: String, lastName: String) -> Result<LocalUser, AuthError> {
         print("[Auth] Sign-up attempt for username: \(username)")
         guard !username.trimmingCharacters(in: .whitespaces).isEmpty else {
@@ -53,6 +55,7 @@ class AuthManager: ObservableObject {
         return .success(user)
     }
     
+    /// Authenticates against stored credentials and sets the active session.
     func login(username: String, password: String) -> Result<LocalUser, AuthError> {
         print("[Auth] Login attempt for username: \(username)")
         guard let user = allUsers.first(where: {
@@ -75,6 +78,7 @@ class AuthManager: ObservableObject {
         KeychainHelper.delete()
     }
     
+    /// Persists changes to the current user (e.g. after saving datapoints or finishing onboarding).
     func updateCurrentUser(_ user: LocalUser) {
         print("[Auth] Updating user: userId=\(user.id), onboarded=\(user.hasCompletedOnboarding), datapoints=\(user.savedDatapoints.count)")
         currentUser = user
@@ -114,6 +118,7 @@ class AuthManager: ObservableObject {
     }
 }
 
+/// Auth failures surfaced to the UI as alerts.
 enum AuthError: Error, LocalizedError {
     case usernameTaken
     case invalidCredentials

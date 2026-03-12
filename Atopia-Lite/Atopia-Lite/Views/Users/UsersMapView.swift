@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 
+/// Map view that plots the current user and matched users with similarity-percentage annotations.
 struct UsersMapView: View {
     @EnvironmentObject var authManager: AuthManager
     @StateObject private var similarityService = SimilarityService()

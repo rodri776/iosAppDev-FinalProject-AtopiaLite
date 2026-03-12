@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Sign-up / login screen with Keychain credential persistence.
 struct AuthView: View {
     @EnvironmentObject var authManager: AuthManager
     @State private var isSignUp = false
@@ -99,6 +100,7 @@ struct AuthView: View {
         }
     }
 
+    /// Runs either sign-up or login depending on the current mode, and shows errors inline.
     private func performAction() {
         errorMessage = nil
         if isSignUp {

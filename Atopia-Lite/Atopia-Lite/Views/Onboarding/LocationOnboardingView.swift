@@ -8,7 +8,9 @@
 import SwiftUI
 import CoreLocation
 import Combine
+import MapKit
 
+/// Onboarding step that requests the user's location and reverse-geocodes it into city/state.
 struct LocationOnboardingView: View {
     @StateObject private var locationFetcher = LocationFetcher()
     var onComplete: (String?, String?, String?, Double?, Double?) -> Void
@@ -82,6 +84,7 @@ struct LocationOnboardingView: View {
 
 // MARK: - One-shot location fetcher
 
+/// One-shot CLLocationManager wrapper that grabs the device location and reverse-geocodes it.
 private class LocationFetcher: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let manager = CLLocationManager()
 
@@ -99,6 +102,7 @@ private class LocationFetcher: NSObject, ObservableObject, CLLocationManagerDele
         manager.desiredAccuracy = kCLLocationAccuracyKilometer
     }
 
+    /// Kicks off a location request (or uses hardcoded coords on the simulator).
     func requestLocation() {
         print("[Location] 'Share Location' button tapped, requesting location")
         isRequesting = true
@@ -147,16 +151,42 @@ private class LocationFetcher: NSObject, ObservableObject, CLLocationManagerDele
         longitude = location.coordinate.longitude
         print("[Location] Location received: lat=\(location.coordinate.latitude), lon=\(location.coordinate.longitude)")
 
-        let geocoder = CLGeocoder()
         print("[Location] Starting reverse geocode")
-        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, _ in
-            guard let self, let placemark = placemarks?.first else { return }
-            self.city = placemark.locality
-            self.state = placemark.administrativeArea
-            self.neighborhood = placemark.subLocality
-            self.locationObtained = true
-            self.isRequesting = false
-            print("[Location] Reverse geocode result: city=\(placemark.locality ?? "nil"), state=\(placemark.administrativeArea ?? "nil"), neighborhood=\(placemark.subLocality ?? "nil")")
+        if #available(iOS 26.0, *) {
+            guard let request = MKReverseGeocodingRequest(location: location) else {
+                isRequesting = false
+                return
+            }
+            Task { @MainActor in
+                do {
+                    let items = try await request.mapItems
+                    guard let mapItem = items.first,
+                          let addrReps = mapItem.addressRepresentations else {
+                        self.isRequesting = false
+                        return
+                    }
+                    self.city = addrReps.cityName
+                    self.state = addrReps.regionName
+                    self.neighborhood = nil
+                    self.locationObtained = true
+                    self.isRequesting = false
+                    print("[Location] Reverse geocode result: city=\(addrReps.cityName ?? "nil"), region=\(addrReps.regionName ?? "nil")")
+                } catch {
+                    print("[Location] Reverse geocode error: \(error.localizedDescription)")
+                    self.isRequesting = false
+                }
+            }
+        } else {
+            let geocoder = CLGeocoder()
+            geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, _ in
+                guard let self, let placemark = placemarks?.first else { return }
+                self.city = placemark.locality
+                self.state = placemark.administrativeArea
+                self.neighborhood = placemark.subLocality
+                self.locationObtained = true
+                self.isRequesting = false
+                print("[Location] Reverse geocode result: city=\(placemark.locality ?? "nil"), state=\(placemark.administrativeArea ?? "nil"), neighborhood=\(placemark.subLocality ?? "nil")")
+            }
         }
     }
 

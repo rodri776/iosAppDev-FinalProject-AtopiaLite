@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Profile tab showing the user's avatar, name, and saved datapoints with a log-out button.
 struct ProfileTabView: View {
     @EnvironmentObject var authManager: AuthManager
 

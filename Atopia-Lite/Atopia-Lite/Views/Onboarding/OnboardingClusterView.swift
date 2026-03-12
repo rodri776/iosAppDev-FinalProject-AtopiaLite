@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Thin wrapper that hosts the interest graph during onboarding so the user can pick their first datapoints.
 struct OnboardingClusterView: View {
     @EnvironmentObject var authManager: AuthManager
     var onComplete: () -> Void
@@ -19,6 +20,7 @@ struct OnboardingClusterView: View {
         )
     }
     
+    /// Builds a UserProfileManager scoped to the logged-in user's ID.
     private func profileManagerForCurrentUser() -> UserProfileManager {
         guard let userId = authManager.currentUser?.id else {
             return UserProfileManager()

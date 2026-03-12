@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Full-screen graph experience with toolbar, instruction bar, and popup overlays.
 struct ClusterContentView: View {
     @StateObject private var viewModel: GraphViewModel
     @State private var showOnboardingPopup = false

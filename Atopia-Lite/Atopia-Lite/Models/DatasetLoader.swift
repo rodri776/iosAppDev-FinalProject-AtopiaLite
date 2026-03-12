@@ -7,8 +7,10 @@
 
 import Foundation
 
+/// Decodes the embedded JSON and builds the category/subcategory hierarchy.
 struct DatasetLoader {
     
+    /// Parses the bundled datapoints JSON and returns flat items plus a tree of categories.
     static func loadDataset() -> (items: [DataItem], hierarchy: [CategoryNode]) {
         print("[DatasetLoader] Loading dataset from embedded JSON (\(datasetJSON.count) characters)")
         let data = Data(datasetJSON.utf8)

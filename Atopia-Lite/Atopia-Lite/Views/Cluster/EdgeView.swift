@@ -6,6 +6,7 @@
 //
 import SwiftUI
 
+/// Draws a line between two connected nodes.
 struct EdgeView: View {
     let fromNode: Node
     let toNode: Node

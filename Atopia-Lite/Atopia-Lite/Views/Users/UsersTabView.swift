@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Lists all users ranked by similarity score, with cards showing shared interests.
 struct UsersTabView: View {
     @EnvironmentObject var authManager: AuthManager
     @StateObject private var similarityService = SimilarityService()
@@ -192,6 +193,7 @@ struct UserCard: View {
 
 // MARK: - User Detail Sheet
 
+/// Full-screen sheet showing a user's profile, match score, and all their datapoints grouped by category.
 struct UserDetailSheet: View {
     let result: SimilarityService.UserSimilarityResult
     @Environment(\.dismiss) private var dismiss

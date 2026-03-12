@@ -7,12 +7,14 @@
 
 import SwiftUI
 
+/// Tracks whether a node is visually focused, highlighted, or faded out.
 enum NodeFocusState {
     case normal
     case highlighted
     case dimmed
 }
 
+/// A single node in the interest graph (category, subcategory, or datapoint).
 struct Node: Identifiable {
     let id = UUID()
     var position: CGPoint
@@ -61,6 +63,7 @@ struct Node: Identifiable {
     }
 }
 
+/// A line connecting two nodes in the graph.
 struct Edge: Identifiable {
     let id = UUID()
     let fromId: UUID
@@ -68,6 +71,7 @@ struct Edge: Identifiable {
     var thickness: CGFloat
 }
 
+/// Translucent circle drawn behind a cluster of related nodes.
 struct GroupBackground: Identifiable {
     let id = UUID()
     var center: CGPoint
@@ -75,6 +79,7 @@ struct GroupBackground: Identifiable {
     var color: Color
 }
 
+/// One entry from the bundled JSON dataset.
 struct DataItem: Codable {
     let id: String
     let label: String
@@ -84,22 +89,26 @@ struct DataItem: Codable {
     let tags: [String]
 }
 
+/// Hierarchy node used when building the graph from the dataset.
 struct CategoryNode {
     let name: String
     var subcategories: [SubcategoryNode] = []
 }
 
+/// Second-level hierarchy node under a category.
 struct SubcategoryNode {
     let name: String
     var subSubcategories: [SubSubcategoryNode] = []
     var items: [String] = []
 }
 
+/// Third-level hierarchy node under a subcategory.
 struct SubSubcategoryNode {
     let name: String
     var items: [String] = []
 }
 
+/// Stores the category path and type for a node, used to look up ancestry.
 struct NodeMetadata {
     let type: Node.NodeType
     let category: String?
@@ -108,6 +117,7 @@ struct NodeMetadata {
     let categoryColor: Color?
 }
 
+/// A datapoint the user has saved, with its full category path.
 struct SavedDatapoint: Identifiable {
     let id = UUID()
     let label: String
@@ -117,6 +127,7 @@ struct SavedDatapoint: Identifiable {
     let categoryColor: Color
 }
 
+/// Groups saved datapoints under their parent category for display.
 struct SavedCategory: Identifiable {
     let id = UUID()
     let name: String

@@ -10,6 +10,7 @@ import MapKit
 import EventKit
 import MessageUI
 
+/// Form for planning a hangout — pick an activity, location, date, then send an SMS invite.
 struct CreateHangoutSheet: View {
     let userName: String
     let phoneNumber: String?
@@ -146,6 +147,7 @@ struct CreateHangoutSheet: View {
         }
     }
 
+    /// Saves the event to the calendar and opens a Messages compose sheet (or falls back to the sms: URL).
     private func sendInvite() {
         Task {
             await saveCalendarEvent()
@@ -160,6 +162,7 @@ struct CreateHangoutSheet: View {
         }
     }
 
+    /// Creates an EKEvent with the filled-in details and writes it to the default calendar.
     private func saveCalendarEvent() async {
         do {
             let granted = try await eventStore.requestWriteOnlyAccessToEvents()
@@ -185,6 +188,7 @@ struct CreateHangoutSheet: View {
         }
     }
 
+    /// Formats the hangout details into a plain-text message body.
     private func buildMessageBody() -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -205,6 +209,7 @@ struct CreateHangoutSheet: View {
 
 // MARK: - MessageComposeView
 
+/// Wraps MFMessageComposeViewController for use in SwiftUI.
 struct MessageComposeView: UIViewControllerRepresentable {
     let recipients: [String]
     let body: String
