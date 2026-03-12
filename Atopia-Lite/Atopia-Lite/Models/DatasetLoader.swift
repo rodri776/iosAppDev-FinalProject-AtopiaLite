@@ -20,7 +20,6 @@ struct DatasetLoader {
         
         var categoryMap: [String: CategoryNode] = [:]
         
-        // Build the hierarchy by iterating through all items
         for item in dataItems {
             if categoryMap[item.category] == nil {
                 categoryMap[item.category] = CategoryNode(name: item.category)

@@ -5,7 +5,6 @@ struct OnboardingPopup: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            // Header with close button
             HStack {
                 Text("Welcome to The Cluster.")
                     .font(.system(size: 30, weight: .bold, design: .serif))
@@ -24,7 +23,6 @@ struct OnboardingPopup: View {
             }
             Divider()
             
-            // Main Content
             VStack(alignment: .leading, spacing: 16) {
                 HStack(spacing: 8) {
                     Text("How it works")
@@ -95,7 +93,6 @@ struct OnboardingPopup: View {
             Spacer()
                 .frame(height: 2)
             
-            // Call to Action Button
             Button(action: {
                 onDismiss()
             }) {
@@ -125,7 +122,6 @@ struct OnboardingPopup: View {
                     .fill(.clear)
                     .glassEffect(.regular, in: .rect(cornerRadius: 20))
             } else {
-                // Fallback for older iOS versions
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color("BackgroundColor").opacity(0.9))
                     .background(

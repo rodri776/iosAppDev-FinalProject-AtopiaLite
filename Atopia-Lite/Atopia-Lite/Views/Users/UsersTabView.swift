@@ -65,6 +65,7 @@ struct UsersTabView: View {
 struct UserCard: View {
     let result: SimilarityService.UserSimilarityResult
     @State private var showCreateHangout = false
+    @State private var showScoreInfo = false
 
     private let maxChips = 3
 
@@ -114,13 +115,24 @@ struct UserCard: View {
 
                 Spacer()
 
-                Text("\(result.percentageSimilarity)%")
-                    .font(.title3.bold())
-                    .foregroundStyle(Color("SavedGreen"))
+                HStack(spacing: 4) {
+                    Text("\(result.percentageSimilarity)%")
+                        .font(.title3.bold())
+                        .foregroundStyle(Color("SavedGreen"))
+
+                    Button {
+                        showScoreInfo = true
+                    } label: {
+                        Image(systemName: "info.circle")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    .accessibilityLabel("Match score info")
+                    .accessibilityHint("Explains how the match percentage is calculated")
+                }
             }
-            .accessibilityElement(children: .ignore)
+            .accessibilityElement(children: .combine)
             .accessibilityLabel(cardSummary)
-            .accessibilityAddTraits(.isButton)
             .accessibilityHint("Shows full profile")
 
             if !commonDisplayLabels.isEmpty {
@@ -170,6 +182,11 @@ struct UserCard: View {
         .padding(18)
         .background(Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 24))
+        .alert("Match Score", isPresented: $showScoreInfo) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("This percentage shows how similar your interests are to this person's, based on shared datapoints and the semantic similarity of your profiles.")
+        }
     }
 }
 
@@ -179,6 +196,7 @@ struct UserDetailSheet: View {
     let result: SimilarityService.UserSimilarityResult
     @Environment(\.dismiss) private var dismiss
     @State private var showCreateHangout = false
+    @State private var showScoreInfo = false
 
     private static let datasetItems: [DataItem] = DatasetLoader.loadDataset().items
 
@@ -220,16 +238,28 @@ struct UserDetailSheet: View {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
 
-                        Text("\(result.percentageSimilarity)% MATCH")
-                            .font(.caption.bold())
-                            .padding(.horizontal, 14).padding(.vertical, 6)
-                            .background(Color("SavedGreen").opacity(0.15))
-                            .foregroundStyle(Color("SavedGreen"))
-                            .clipShape(Capsule())
-                            .overlay(
-                                Capsule().stroke(Color("SavedGreen"), lineWidth: 1)
-                            )
-                            .accessibilityLabel("\(result.percentageSimilarity) percent match")
+                        HStack(spacing: 6) {
+                            Text("\(result.percentageSimilarity)% MATCH")
+                                .font(.caption.bold())
+                                .padding(.horizontal, 14).padding(.vertical, 6)
+                                .background(Color("SavedGreen").opacity(0.15))
+                                .foregroundStyle(Color("SavedGreen"))
+                                .clipShape(Capsule())
+                                .overlay(
+                                    Capsule().stroke(Color("SavedGreen"), lineWidth: 1)
+                                )
+
+                            Button {
+                                showScoreInfo = true
+                            } label: {
+                                Image(systemName: "info.circle")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            .accessibilityLabel("Match score info")
+                        }
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("\(result.percentageSimilarity) percent match")
 
                         // Create Hangout button
                         Button {
@@ -294,6 +324,11 @@ struct UserDetailSheet: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Done") { dismiss() }
                 }
+            }
+            .alert("Match Score", isPresented: $showScoreInfo) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("This percentage shows how similar your interests are to this person's, based on shared datapoints and the semantic similarity of your profiles.")
             }
         }
     }

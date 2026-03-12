@@ -23,9 +23,9 @@ struct Node: Identifiable {
     var isSavedToProfile: Bool = false
     var isRecommended: Bool = false
     var isFromRecommendation: Bool = false
-    var parentId: UUID? = nil
+    var parentId: UUID?
     var childIds: [UUID] = []
-    var categoryColor: Color? = nil
+    var categoryColor: Color?
     var textWidth: CGFloat = 0
     var savedCount: Int = 0
     

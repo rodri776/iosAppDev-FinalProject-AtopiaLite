@@ -20,7 +20,6 @@ struct EdgeView: View {
     }
 }
 
-// Alternative initializer that takes an edge and nodes array
 extension EdgeView {
     init(edge: Edge, nodes: [Node]) {
         let fromNode = nodes.first(where: { $0.id == edge.fromId }) ?? Node(position: .zero, label: "", type: .me)

@@ -12,15 +12,12 @@ struct GraphView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Background
                 Color.clear
                 
-                // Edges
                 ForEach(viewModel.edges) { edge in
                     EdgeView(edge: edge, nodes: viewModel.nodes)
                 }
                 
-                // Nodes
                 ForEach(viewModel.nodes) { node in
                     NodeView(
                         node: node,

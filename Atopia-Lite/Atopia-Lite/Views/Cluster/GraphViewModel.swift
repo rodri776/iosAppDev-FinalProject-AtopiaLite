@@ -37,6 +37,7 @@ class GraphViewModel: ObservableObject {
     private var displayLink: CADisplayLink?
     private var physicsEngine: PhysicsEngine
     private var instructionResetTask: Task<Void, Never>?
+    private var lifecycleObservers: [NSObjectProtocol] = []
     
     private(set) var dataItems: [DataItem] = []
     private var categoryHierarchy: [CategoryNode] = []
@@ -61,7 +62,16 @@ class GraphViewModel: ObservableObject {
         embeddingManager.preEmbed(labels: dataItems.map { $0.label })
         
         startPhysics()
+        observeAppLifecycle()
         print("[Graph] GraphViewModel ready: \(dataItems.count) items, \(categoryHierarchy.count) categories")
+    }
+    
+    deinit {
+        displayLink?.invalidate()
+        displayLink = nil
+        for observer in lifecycleObservers {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
     
     private func loadDataset() {
@@ -87,6 +97,28 @@ class GraphViewModel: ObservableObject {
     private func startPhysics() {
         displayLink = CADisplayLink(target: self, selector: #selector(updatePhysics))
         displayLink?.add(to: .main, forMode: .common)
+    }
+    
+    private func observeAppLifecycle() {
+        let bg = NotificationCenter.default.addObserver(
+            forName: UIApplication.didEnterBackgroundNotification,
+            object: nil, queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated {
+                self?.displayLink?.isPaused = true
+                print("[Graph] Physics paused (app backgrounded)")
+            }
+        }
+        let fg = NotificationCenter.default.addObserver(
+            forName: UIApplication.willEnterForegroundNotification,
+            object: nil, queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated {
+                self?.displayLink?.isPaused = false
+                print("[Graph] Physics resumed (app foregrounding)")
+            }
+        }
+        lifecycleObservers = [bg, fg]
     }
     
     @objc private func updatePhysics() {

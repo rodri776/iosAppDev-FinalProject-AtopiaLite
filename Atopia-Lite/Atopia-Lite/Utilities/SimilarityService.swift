@@ -8,11 +8,6 @@
 import Foundation
 import Combine
 
-/// Computes ConstellationRank similarity between users.
-///
-/// Score = 0.40 * cos_norm + 0.60 * text_overlap
-///   - cos_norm: centroid cosine similarity, min-max normalized [-1,1] → [0,1]
-///   - text_overlap: Dice–Sørensen coefficient on datapoint labels
 @MainActor
 class SimilarityService: ObservableObject {
     @Published var results: [UserSimilarityResult] = []
@@ -73,7 +68,6 @@ class SimilarityService: ObservableObject {
                 // 2. Dice–Sørensen coefficient on datapoint labels
                 let textOverlap = diceCoefficient(currentLabelSet, otherLabelSet)
 
-                // ConstellationRank weighted score
                 let score = 0.40 * cosNorm + 0.60 * textOverlap
 
                 let commonLabels = Array(currentLabelSet.intersection(otherLabelSet)).sorted()

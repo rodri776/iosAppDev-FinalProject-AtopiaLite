@@ -24,32 +24,19 @@ struct NodeView: View {
     }
     
     private var visualOpacity: Double {
-        switch focusState {
-        case .normal: return 1.0
-        case .highlighted: return 1.0
-        case .dimmed: return 0.25
-        }
+        focusState == .dimmed ? 0.25 : 1.0
     }
     
     private var visualSaturation: Double {
-        switch focusState {
-        case .normal: return 1.0
-        case .highlighted: return 1.0
-        case .dimmed: return 0.3
-        }
+        focusState == .dimmed ? 0.3 : 1.0
     }
     
     private var visualScale: CGFloat {
-        switch focusState {
-        case .normal: return 1.0
-        case .highlighted: return 1.0
-        case .dimmed: return 0.85
-        }
+        focusState == .dimmed ? 0.85 : 1.0
     }
     
     var body: some View {
         ZStack {
-            // Recommendation aura
             if node.isRecommended && !node.isSavedToProfile {
                 Capsule()
                     .fill(Color("RecPurple1").opacity(0.9))
@@ -58,7 +45,6 @@ struct NodeView: View {
                     .shadow(color: Color("RecPurple1").opacity(0.8), radius: 12, x: 0, y: 0)
             }
             
-            // Expanded ring
             if node.isExpanded && !node.childIds.isEmpty {
                 Capsule()
                     .stroke(
@@ -73,7 +59,6 @@ struct NodeView: View {
                     .shadow(color: Color("ExpandedGreen").opacity(0.5), radius: 8, x: 0, y: 0)
             }
             
-            // Glow
             if node.isRecommended && !node.isSavedToProfile {
                 Capsule()
                     .fill(Color("RecPurple1").opacity(0.9))
@@ -110,7 +95,6 @@ struct NodeView: View {
                             )
                     )
                     .overlay(
-                        // Subtle ring animation when expanded
                         Group {
                             if node.isExpanded {
                                 Capsule()
@@ -125,7 +109,6 @@ struct NodeView: View {
                             }
                         }
                     )
-                    .scaleEffect(1.4)
                     .shadow(color: Color.black.opacity(0.16), radius: 6, x: -2, y: 2)
                     .shadow(
                         color: Color("SavedGreen").opacity(isPulsing ? 0.8 : 0.3),
@@ -153,8 +136,6 @@ struct NodeView: View {
                                 lineWidth: (node.savedCount > 0) ? 3 : 2
                             )
                     )
-                    .scaleEffect(1.15)
-                
             case .subcategory, .subSubcategory:
                 Capsule()
                     .fill(gradientForNode)
@@ -166,8 +147,6 @@ struct NodeView: View {
                                 lineWidth: (node.savedCount > 0) ? 3 : 2
                             )
                     )
-                    .scaleEffect(1.0)
-                
             case .datapoint:
                 Capsule()
                     .fill(gradientForNode)
@@ -179,10 +158,8 @@ struct NodeView: View {
                                 lineWidth: node.isSavedToProfile ? 3 : 2
                             )
                     )
-                    .scaleEffect(0.9)
             }
             
-            // Saved checkmark
             if node.type == .datapoint && node.isSavedToProfile {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 16, weight: .bold))
@@ -190,7 +167,6 @@ struct NodeView: View {
                     .offset(x: max(sizeForNode, node.textWidth + 20) / 2 - 14, y: -sizeForNode / 2 + 10)
             }
             
-            // Recommendation sparkle
             if node.isRecommended && !node.isSavedToProfile {
                 Image(systemName: "sparkles")
                     .font(.system(size: 16, weight: .bold))
@@ -271,10 +247,7 @@ struct NodeView: View {
         
         if isSelected {
             return LinearGradient(
-                colors: [
-                    Color("SavedGreen"),
-                    Color("SavedGreen")
-                ],
+                colors: [Color("SavedGreen")],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )

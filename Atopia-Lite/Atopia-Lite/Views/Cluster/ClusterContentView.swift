@@ -166,7 +166,7 @@ struct ClusterContentView: View {
         let canShow = viewModel.canShowRecommendations
         let isEnabled = (isActive || canShow) && !isCalculating
         
-        var statusText: String? = nil
+        var statusText: String?
         if let errorText = viewModel.recommendationError {
             statusText = errorText
         } else if isCalculating {

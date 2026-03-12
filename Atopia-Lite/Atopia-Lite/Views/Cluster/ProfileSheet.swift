@@ -13,7 +13,6 @@ struct ProfilePopup: View {
         activeViewModel.getSavedDatapointsByCategory()
     }
     
-    // All datapoints with their categories
     private var allDatapoints: [(datapoint: SavedDatapoint, category: SavedCategory)] {
         var result: [(SavedDatapoint, SavedCategory)] = []
         
@@ -28,7 +27,6 @@ struct ProfilePopup: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
-            // Header with close button
             HStack {
                 HStack(spacing: 12) {
                     Image(systemName: "circle.hexagongrid")
@@ -57,10 +55,7 @@ struct ProfilePopup: View {
             } else {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
-                        // Datapoint chips
                         datapointChipsSection
-                        
-                        // Category reference key
                         categoryReferenceKey
                     }
                 }
@@ -74,7 +69,6 @@ struct ProfilePopup: View {
                     .fill(.clear)
                     .glassEffect(.regular, in: .rect(cornerRadius: 20))
             } else {
-                // Fallback for older iOS versions
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color("BackgroundColor").opacity(0.9))
                     .background(
@@ -157,7 +151,6 @@ struct DatapointChip: View {
     let datapoint: SavedDatapoint
     let category: SavedCategory
     
-    // Format the category label to show after the datapoint name
     private var categoryLabel: String {
         if let subSub = datapoint.subSubcategory {
             return subSub.uppercased()
@@ -168,12 +161,10 @@ struct DatapointChip: View {
     
     var body: some View {
         HStack(spacing: 6) {
-            // Main label
             Text(datapoint.label.uppercased())
                 .font(.system(size: 13, weight: .bold, design: .monospaced))
                 .foregroundColor(.white)
             
-            // Category label
             Text(categoryLabel)
                 .font(.system(size: 11, weight: .medium, design: .monospaced))
                 .foregroundColor(.white.opacity(0.5))

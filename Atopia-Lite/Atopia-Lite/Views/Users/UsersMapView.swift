@@ -16,14 +16,12 @@ struct UsersMapView: View {
     var body: some View {
         NavigationStack {
             Map {
-                // Current user marker
                 if let user = authManager.currentUser,
                    let lat = user.latitude, let lon = user.longitude {
                     Marker("You", coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon))
                         .tint(.green)
                 }
 
-                // Other users
                 ForEach(similarityService.results) { result in
                     if let lat = result.user.latitude, let lon = result.user.longitude {
                         Annotation(result.user.displayName,
